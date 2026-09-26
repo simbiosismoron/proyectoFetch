@@ -30,7 +30,9 @@ $conn = $database->getConnection();
             </ul>
         </nav>
     </header>
+
     <?php if ($conn): ?>
+
         <main class="container my-5 bg-light p-4 rounded">
             <div class="about-us my-5">
                 <h2 class="text-primary">Acerca de Nosotros</h2>
@@ -45,6 +47,9 @@ $conn = $database->getConnection();
 
             </div>
         </main>
+        <footer class="bg-light text-center py-4">
+            <p class="text-secondary mb-0">&copy; 2026 Pampa. Todos los derechos reservados.</p>
+        </footer>
     <?php else: ?>
         <h2>Conexión a la base de datos fallida</h2>
         <p>Por favor, verifica la configuración de la base de datos.</p>

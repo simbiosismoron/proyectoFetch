@@ -1,3 +1,5 @@
+let carrito = [];
+
 async function obtenerProductos () {
     try {
         const respuesta = await fetch("../api/productos.php");
@@ -42,7 +44,7 @@ function mostrarProductos(productos) {
 
             <p class="text-white fs-5">Precio: $${producto.precio}</p>
 
-            <button class="btn btn-primary">
+            <button class="btn btn-primary btn-agregar" data-id="${producto.idProducto}">
                 Agregar al carrito
             </button>
         `;
@@ -50,7 +52,20 @@ function mostrarProductos(productos) {
         columna.appendChild(productoElemento);
 
         contenedor.appendChild(columna);
-    });
-}
+
+
+        const botonesAgregar = productoElemento.querySelectorAll(".btn-agregar");
+        botonesAgregar.forEach(boton => {
+            boton.addEventListener("click", () => {
+                const idProducto = Number(boton.dataset.id);
+                const productoSeleccionado = productos.find(p => p.idProducto === idProducto);
+                carrito.push(productoSeleccionado);
+                console.log(carrito);
+            });
+
+        });
+    }); 
+};
+
 
 obtenerProductos();

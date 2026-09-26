@@ -1,0 +1,24 @@
+.producto {
+    min-height: 350px;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.25),
+            rgba(0, 0, 0, 0.8)
+        ),
+        var(--imagen-producto);
+
+    background-size: cover;
+    background-position: center;
+
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+
+

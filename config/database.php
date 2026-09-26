@@ -2,21 +2,38 @@
 
 class Database
 {
-    private $host = "localhost";
-    private $db_name = "your_database_name";
-    private $username = "your_username";
-    private $password = "your_password";
-    public $conn;
+    private string $host = "localhost";
+    private string $db_name = "ppampa";
+    private string $username = "root";
+    private string $password = "";
 
-    public function getConnection()
+    private ?PDO $conn = null;
+    public function getConnection(): ?PDO
     {
-        $this->conn = null;
         try {
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-            $this->conn->exec("set names utf8");
+
+            $dsn = "mysql:host={$this->host};dbname={$this->db_name};charset=utf8mb4";
+
+            $this->conn = new PDO(
+                $dsn,
+                $this->username,
+                $this->password
+            );
+
+            $this->conn->setAttribute(
+                PDO::ATTR_ERRMODE,
+                PDO::ERRMODE_EXCEPTION
+            );
+
+            $this->conn->setAttribute(
+                PDO::ATTR_DEFAULT_FETCH_MODE,
+                PDO::FETCH_ASSOC
+            );
+
+            return $this->conn;
         } catch (PDOException $exception) {
-            echo "Connection error: " . $exception->getMessage();
+            error_log($exception->getMessage());
+            return null;
         }
-        return $this->conn;
     }
 }

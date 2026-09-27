@@ -44,12 +44,34 @@ $conn = $database->getConnection();
                 <div class="container">
                     <div id="contenedorProductos" class="row g-4"></div>
                 </div>
-
+                <div class="carrito">
+                    <h2 class="text-primary">Carrito</h2>
+                    <div id="carrito" class="row g-4"></div>
+                </div>
             </div>
         </main>
+
+
+
+
+
+
         <footer class="bg-light text-center py-4">
             <p class="text-secondary mb-0">&copy; 2026 Pampa. Todos los derechos reservados.</p>
         </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
     <?php else: ?>
         <h2>Conexión a la base de datos fallida</h2>
         <p>Por favor, verifica la configuración de la base de datos.</p>

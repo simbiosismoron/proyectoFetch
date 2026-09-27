@@ -37,6 +37,7 @@ class pedido
             }
             if ($cantidad > $productobd['stock']) {
                 throw new Exception("Cantidad solicitada excede el stock disponible para el producto: " . $idProducto);
+            }
         }
     }
 }

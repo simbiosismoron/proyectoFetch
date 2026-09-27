@@ -84,8 +84,8 @@ $conn = $database->getConnection();
         <p>Por favor, verifica la configuración de la base de datos.</p>
     <?php endif; ?>
 
-    <script src="js/productos.js">
-    </script>
+    <script src="js/productos.js"></script>
+    <script src="js/pedidos.js"></script>
 </body>
 
 </html>

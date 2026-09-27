@@ -20,6 +20,12 @@
     overflow: hidden;
 }
 
+#total {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #2c8138;
+}
+
 .carrito {
     margin-top: 55px;
     display: flex;

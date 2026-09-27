@@ -44,13 +44,20 @@ $conn = $database->getConnection();
                 <div class="container">
                     <div id="contenedorProductos" class="row g-4"></div>
                 </div>
-                <div class="carrito">
-                    <h2 class="text-primary">Carrito</h2>
-                    <div id="carrito" class="row g-4"></div>
-                </div>
             </div>
         </main>
-
+        <div class="carrito container my-5 bg-light p-4 rounded">
+            <h2 class="text-primary">Carrito</h2>
+            <div class="carritocontainer">
+                <div id="carrito" class="row g-4"></div>
+                <button id="vaciarCarrito" class="btn btn-danger">
+                    Vaciar carrito
+                </button>
+                <button id="realizarPedido" class="btn btn-primary">
+                    Realizar pedido
+                </button>
+            </div>
+        </div>
 
 
 

@@ -1,4 +1,8 @@
-let carrito = [];
+const carritoGuardado = localStorage.getItem("carrito");
+
+let carrito = carritoGuardado
+    ? JSON.parse(carritoGuardado)
+    : [];
 
 async function obtenerProductos() {
     try {
@@ -78,7 +82,7 @@ function mostrarProductos(productos) {
             </p>
 
             <p class="text-white fs-5">
-                Precio: $${producto.precio}
+                Precio: $${producto.precio} / ${producto.unidadMedida}
             </p>
 
             ${botonProducto}
@@ -112,32 +116,40 @@ function mostrarProductos(productos) {
                         p => Number(p.idProducto) === idProducto
                     );
 
+                    if (productoEnCarrito) {
 
-                if (productoEnCarrito) {
+    const incremento = Number(productoEnCarrito.incremento);
+    const cantidadActual = Number(productoEnCarrito.cantidad);
+    const stock = Number(productoEnCarrito.stock);
 
-                    if (
-                        productoEnCarrito.cantidad <
-                        Number(productoEnCarrito.stock)
-                    ) {
+    const nuevaCantidad = Number(
+        (cantidadActual + incremento).toFixed(3)
+    );
 
-                        productoEnCarrito.cantidad++;
+    if (nuevaCantidad <= stock) {
 
-                    } else {
+        productoEnCarrito.cantidad = nuevaCantidad;
 
-                        alert(
-                            "Cantidad máxima de stock alcanzada"
-                        );
+        guardarJSON();
+        mostrarJSON();
 
-                    }
+    } else {
 
-                } else {
+        alert("Cantidad máxima de stock alcanzada");
 
-                    carrito.push({
-                        ...productoSeleccionado,
-                        cantidad: 1
-                    });
+    }
 
-                }
+} else {
+
+    carrito.push({
+        ...productoSeleccionado,
+        cantidad: Number(productoSeleccionado.incremento)
+    });
+
+    guardarJSON();
+    mostrarJSON();
+
+}
 
 
                 mostrarCarrito();
@@ -189,11 +201,11 @@ function mostrarCarrito() {
                 </p>
 
                 <p class="text-dark fs-5">
-                    Stock: ${producto.stock}
+                    Stock: ${producto.stock} ${producto.unidadMedida}
                 </p>
 
                 <p class="text-dark fs-5">
-                    Precio unitario: $${producto.precio}
+                    Precio: $${producto.precio} / ${producto.unidadMedida}
                 </p>
 
 
@@ -205,7 +217,7 @@ function mostrarCarrito() {
 
 
                 <span class="text-dark fs-5">
-                    Cantidad: ${producto.cantidad}
+                    Cantidad: ${producto.cantidad} ${producto.unidadMedida}
                 </span>
 
 
@@ -246,20 +258,26 @@ function mostrarCarrito() {
                 );
 
 
-            if (
-                productoEnCarrito.cantidad <
-                Number(productoEnCarrito.stock)
-            ) {
+const incremento = Number(productoEnCarrito.incremento);
+const cantidadActual = Number(productoEnCarrito.cantidad);
+const stock = Number(productoEnCarrito.stock);
 
-                productoEnCarrito.cantidad++;
+const nuevaCantidad = Number(
+    (cantidadActual + incremento).toFixed(3)
+);
 
-            } else {
+if (nuevaCantidad <= stock) {
 
-                alert(
-                    "Cantidad máxima de stock alcanzada"
-                );
+    productoEnCarrito.cantidad = nuevaCantidad;
 
-            }
+    guardarJSON();
+    mostrarJSON();
+
+} else {
+
+    alert("Cantidad máxima de stock alcanzada");
+
+}
 
 
             mostrarCarrito();
@@ -286,19 +304,27 @@ function mostrarCarrito() {
                 );
 
 
-            if (productoEnCarrito.cantidad > 1) {
+            const incremento = Number(productoEnCarrito.incremento);
+const cantidadActual = Number(productoEnCarrito.cantidad);
 
-                productoEnCarrito.cantidad--;
+const nuevaCantidad = Number(
+    (cantidadActual - incremento).toFixed(3)
+);
 
+            if (nuevaCantidad > 0) {
+
+                productoEnCarrito.cantidad = nuevaCantidad;
+                guardarJSON();
+                mostrarJSON();
             } else {
-
 
                 carrito = carrito.filter(
                     p => Number(p.idProducto) !== idProducto
                 );
+                guardarJSON();
+                mostrarJSON();
 
             }
-
 
             mostrarCarrito();
 
@@ -324,11 +350,74 @@ function mostrarCarrito() {
 
 
     totalElemento.innerHTML =
-        "Total: $" + total;
+        "<p id='total'>Total: $" + total + "</p>";
 
 
     contenedorCarrito.appendChild(totalElemento);
 
 }
+function guardarJSON() {
+    const carritoJSON = JSON.stringify(carrito);
+    localStorage.setItem(
+        "carrito", carritoJSON
+    );
+}
+
+function mostrarJSON() {
+    console.log(carrito);
+}
+
+const botonVaciar = document.getElementById("vaciarCarrito");
+
+botonVaciar.addEventListener("click", () => {
+
+    carrito = [];
+
+    guardarJSON();
+
+    mostrarCarrito();
+
+});
+
+async function realizarPedido() {
+
+    const pedido = {
+        idUsuario: 1,
+        productos: carrito
+    };
+
+    try {
+
+        const respuesta = await fetch("../api/pedidos.php", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(pedido)
+        });
+
+        const resultado = await respuesta.text();
+
+        console.log("Status:", respuesta.status);
+        console.log("Respuesta PHP:", resultado);
+
+    } catch (error) {
+
+        console.error("Error al realizar el pedido:", error);
+
+    }
+}
+
+const botonPedido = document.getElementById("realizarPedido");
+
+botonPedido.addEventListener("click", () => {
+
+    realizarPedido();
+
+});
+
 
 obtenerProductos();
+mostrarCarrito();

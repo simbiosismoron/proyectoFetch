@@ -17,11 +17,18 @@ async function realizarPedido() {
             body: JSON.stringify(pedido)
         });
 
-        const resultado = await respuesta.text();
+        const resultado = await respuesta.json();
 
-        console.log("Status:", respuesta.status);
-        console.log("Respuesta PHP:", resultado);
+        console.log("Resultado del pedido:", resultado);
 
+        if (resultado.ok) {
+            carrito = [];
+            guardarJSON();
+            mostrarCarrito();
+            alert("Pedido realizado con éxito."); 
+        } else {
+            alert("Error al realizar el pedido: " + resultado.error);
+        }
     } catch (error) {
 
         console.error("Error al realizar el pedido:", error);

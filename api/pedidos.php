@@ -13,9 +13,14 @@ $datos = json_decode(
 try {
     $resultado = $pedido->realizarPedido($datos['idUsuario'], $datos['productos']);
     echo json_encode($resultado);
-} catch (Exception $e) {
+} catch (Throwable $e) {
+
+    http_response_code(500);
+
+    error_log($e->getMessage());
+
     echo json_encode([
         "ok" => false,
-        "error" => $e->getMessage()
+        "error" => "Ocurrió un error al procesar el pedido"
     ]);
 }

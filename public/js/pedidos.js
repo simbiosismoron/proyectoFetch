@@ -17,17 +17,30 @@ async function realizarPedido() {
             body: JSON.stringify(pedido)
         });
 
+        if (!respuesta.ok) {
+            const errorText = await respuesta.text();
+            alert(errorText || "Error del servidor");
+            return;
+        }
+
         const resultado = await respuesta.json();
 
         console.log("Resultado del pedido:", resultado);
 
         if (resultado.ok) {
+
             carrito = [];
             guardarJSON();
             mostrarCarrito();
-            alert("Pedido realizado con éxito."); 
+
+            console.log("Pedido realizado con éxito.");
+
+            await obtenerProductos();
+
+            console.log("Catálogo actualizado."); 
+
         } else {
-            alert("Error al realizar el pedido: " + resultado.error);
+            alert(resultado.error || "No se pudo realizar el pedido");
         }
     } catch (error) {
 

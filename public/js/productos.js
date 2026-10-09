@@ -20,7 +20,7 @@ async function obtenerProductos() {
     }
 }
 
-function mostrarProductos(productos) {
+async function mostrarProductos(productos) {
 
     const contenedor = document.getElementById("contenedorProductos");
 

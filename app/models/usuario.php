@@ -75,7 +75,7 @@ class usuario
             "ok" => true,
             "idusuario" => (int) $idusuario
         ];
-    };
+    }
 
     public function iniciarSesion($email, $password)
     {
@@ -86,25 +86,24 @@ class usuario
 
         $stmt = $this->conn->prepare($sql);
 
-    $stmt->execute([
-        "email" => $email
-    ]);
+        $stmt->execute([
+            "email" => $email
+        ]);
 
-    $usuario = $stmt->fetch();
+        $usuario = $stmt->fetch();
 
-    if (!$usuario) {
-        return false;
-    }
+        if (!$usuario) {
+            return false;
+        }
 
-    if (!password_verify($password, $usuario["password"])) {
-        return false;
-    }
+        if (!password_verify($password, $usuario["password"])) {
+            return false;
+        }
 
-    return [
-        "idusuario" => (int) $usuario["Idusuario"],
-        "nombre" => $usuario["nombre"],
-        "email" => $usuario["email"]
-    ];
+        return [
+            "idusuario" => (int) $usuario["Idusuario"],
+            "nombre" => $usuario["nombre"],
+            "email" => $usuario["email"]
+        ];
     }
 }
-

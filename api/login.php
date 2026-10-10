@@ -7,7 +7,6 @@ session_start();
 require_once __DIR__ . "/../app/models/usuario.php";
 
 try {
-
     $datos = json_decode(file_get_contents("php://input"), true);
 
     if (
@@ -47,7 +46,6 @@ try {
         "usuario" => $resultado
     ]);
 } catch (InvalidArgumentException $e) {
-
     http_response_code(400);
 
     echo json_encode([
@@ -55,12 +53,11 @@ try {
         "error" => $e->getMessage()
     ]);
 } catch (Throwable $e) {
-
     http_response_code(500);
     error_log($e->getMessage());
 
     echo json_encode([
         "ok" => false,
-        "error" => "No se pudo iniciar sesión"
+        "error" => "Error interno del servidor"
     ]);
 }

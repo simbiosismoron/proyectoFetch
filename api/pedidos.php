@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 header("Content-Type: application/json; charset=UTF-8");
 require_once __DIR__ . "/../app/models/pedido.php";
 
@@ -11,7 +13,17 @@ $datos = json_decode(
 );
 
 try {
-    $resultado = $pedido->realizarPedido($datos['idUsuario'], $datos['productos']);
+
+    if (!isset($_SESSION["idUsuario"])) {
+        http_response_code(401);
+        echo json_encode([
+            "ok" => false,
+            "error" => "No autenticado"
+        ]);
+        exit;
+    }
+
+    $resultado = $pedido->realizarPedido($_SESSION['idUsuario'], $datos['productos']);
     echo json_encode($resultado);
 } catch (Throwable $e) {
 

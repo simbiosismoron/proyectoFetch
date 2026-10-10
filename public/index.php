@@ -24,6 +24,9 @@ $conn = $database->getConnection();
         <h1 class="display-4 text-primary">Pampa</h1>
         <nav>
             <ul class="nav nav-pills">
+                <button id="btnVerCarrito" class="btn btn-outline-primary ms-3">
+                    Carrito
+                </button>
                 <li class="nav-item"><a class="nav-link text-decoration-none text-secondary fs-5" href="#">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link text-decoration-none text-secondary fs-5" href="#">Acerca de</a></li>
                 <li class="nav-item"><a class="nav-link text-decoration-none text-secondary fs-5" href="#">Contacto</a></li>
@@ -34,38 +37,53 @@ $conn = $database->getConnection();
     <?php if ($conn): ?>
 
         <main class="container my-5 bg-light p-4 rounded">
+            <p id="estadoSesion" class="text-dark fs-5"></p>
             <div class="about-us my-5">
                 <h2 class="text-primary">Acerca de Nosotros</h2>
                 <p class="text-dark fs-5">Bienvenido a Pampa. Somos una empresa dedicada a brindar soluciones innovadoras y de alta calidad a nuestros clientes.</p>
             </div>
             <div class="products my-5">
-                <h2 class="text-primary">Productos</h2>
-                <p class="text-dark fs-5">Explora nuestra gama de productos innovadores diseñados para satisfacer tus necesidades.</p>
-                <div class="container">
-                    <div id="contenedorProductos" class="row g-4"></div>
-                </div>
+
+                <section id="vistaCatalogo">
+
+                    <h2 class="text-primary">Productos</h2>
+
+                    <p class="text-dark fs-5">
+                        Explora nuestra gama de productos.
+                    </p>
+
+                    <div id="contenedorProductos" class="row g-5">
+                    </div>
+
+                </section>
+
+                <section id="vistaCarrito" class="d-none">
+
+                    <button id="btnVolverCatalogo"
+                        class="btn btn-secondary mb-4">
+                        Volver al catálogo
+                    </button>
+
+                    <h2 class="text-primary">Mi carrito</h2>
+
+                    <div id="carrito" class="row g-3">
+                    </div>
+
+                    <button id="vaciarCarrito" class="btn btn-danger mt-3">
+                        Vaciar carrito
+                    </button>
+
+                </section>
+
             </div>
-        </main>
-        <div class="carrito container my-5 bg-light p-4 rounded">
-            <h2 class="text-primary">Carrito</h2>
-            <div class="carritocontainer">
-                <div id="carrito" class="row g-4"></div>
-                <button id="vaciarCarrito" class="btn btn-danger">
-                    Vaciar carrito
-                </button>
-                <button id="realizarPedido" class="btn btn-primary">
-                    Realizar pedido
-                </button>
-            </div>
-        </div>
 
 
 
 
 
-        <footer class="bg-light text-center py-4">
-            <p class="text-secondary mb-0">&copy; 2026 Pampa. Todos los derechos reservados.</p>
-        </footer>
+            <footer class="bg-light text-center py-4">
+                <p class="text-secondary mb-0">&copy; 2026 Pampa. Todos los derechos reservados.</p>
+            </footer>
 
 
 
@@ -79,13 +97,13 @@ $conn = $database->getConnection();
 
 
 
-    <?php else: ?>
-        <h2>Conexión a la base de datos fallida</h2>
-        <p>Por favor, verifica la configuración de la base de datos.</p>
-    <?php endif; ?>
+        <?php else: ?>
+            <h2>Conexión a la base de datos fallida</h2>
+            <p>Por favor, verifica la configuración de la base de datos.</p>
+        <?php endif; ?>
 
-    <script src="js/productos.js"></script>
-    <script src="js/pedidos.js"></script>
+        <script src="js/productos.js"></script>
+        <script src="js/pedidos.js"></script>
 </body>
 
 </html>

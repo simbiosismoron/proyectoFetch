@@ -131,7 +131,6 @@ async function mostrarProductos(productos) {
         productoEnCarrito.cantidad = nuevaCantidad;
 
         guardarJSON();
-        mostrarJSON();
 
     } else {
 
@@ -147,7 +146,6 @@ async function mostrarProductos(productos) {
     });
 
     guardarJSON();
-    mostrarJSON();
 
 }
 
@@ -271,7 +269,6 @@ if (nuevaCantidad <= stock) {
     productoEnCarrito.cantidad = nuevaCantidad;
 
     guardarJSON();
-    mostrarJSON();
 
 } else {
 
@@ -315,14 +312,12 @@ const nuevaCantidad = Number(
 
                 productoEnCarrito.cantidad = nuevaCantidad;
                 guardarJSON();
-                mostrarJSON();
             } else {
 
                 carrito = carrito.filter(
                     p => Number(p.idProducto) !== idProducto
                 );
                 guardarJSON();
-                mostrarJSON();
 
             }
 
@@ -363,10 +358,6 @@ function guardarJSON() {
     );
 }
 
-function mostrarJSON() {
-    console.log(carrito);
-}
-
 const botonVaciar = document.getElementById("vaciarCarrito");
 
 botonVaciar.addEventListener("click", () => {
@@ -379,5 +370,81 @@ botonVaciar.addEventListener("click", () => {
 
 });
 
+async function verificarSesion() {
+    try {
+        const respuesta = await fetch("../api/sesion.php");
+
+        const resultado = await respuesta.json();
+
+        const contenedor = document.getElementById("estadoSesion");
+
+        if (resultado.autenticado) {
+
+    contenedor.innerHTML = `
+        <span>Bienvenido, ${resultado.nombre}</span>
+        <button id="btnLogout" class="btn btn-outline-danger ms-3">
+            Cerrar sesión
+        </button>
+    `;
+
+    document.getElementById("btnLogout")
+        .addEventListener("click", cerrarSesion);
+
+} else {
+
+    contenedor.innerHTML = `
+        <a href="login.html" class="btn btn-primary">
+            Iniciar sesión
+        </a>
+        <a href="registro.html" class="btn btn-outline-secondary ms-2">
+            Registrarse
+        </a>
+    `;
+}
+
+    } catch (error) {
+        console.error("Error al verificar la sesión:", error);
+    }
+}
+
+async function cerrarSesion() {
+    try {
+        const respuesta = await fetch("../api/logout.php", {
+            method: "POST"
+        });
+
+        const resultado = await respuesta.json();
+
+        if (respuesta.ok && resultado.ok) {
+            await verificarSesion();
+        } else {
+            console.error("No se pudo cerrar sesión");
+        }
+
+    } catch (error) {
+        console.error("Error al cerrar sesión:", error);
+    }
+}
+
+const vistaCatalogo = document.getElementById("vistaCatalogo");
+const vistaCarrito = document.getElementById("vistaCarrito");
+const aboutUs = document.querySelector(".about-us");
+
+const btnVerCarrito = document.getElementById("btnVerCarrito");
+const btnVolverCatalogo = document.getElementById("btnVolverCatalogo");
+
+btnVerCarrito.addEventListener("click", () => {
+    vistaCatalogo.classList.add("d-none");
+    vistaCarrito.classList.remove("d-none")
+    aboutUs.classList.add("d-none");
+});
+
+btnVolverCatalogo.addEventListener("click", () => {
+    vistaCarrito.classList.add("d-none");
+    vistaCatalogo.classList.remove("d-none");
+    aboutUs.classList.remove("d-none");
+});
+
 obtenerProductos();
 mostrarCarrito();
+verificarSesion();

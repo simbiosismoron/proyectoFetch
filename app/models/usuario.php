@@ -80,7 +80,7 @@ class usuario
     public function iniciarSesion($email, $password)
     {
 
-        $sql = "SELECT Idusuario, nombre, email, password
+        $sql = "SELECT idUsuario, nombre, email, password
         FROM usuarios
         WHERE email = :email";
 
@@ -101,7 +101,7 @@ class usuario
         }
 
         return [
-            "idusuario" => (int) $usuario["Idusuario"],
+            "idUsuario" => (int) $usuario["idUsuario"],
             "nombre" => $usuario["nombre"],
             "email" => $usuario["email"]
         ];

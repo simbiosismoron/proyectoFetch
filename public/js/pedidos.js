@@ -1,7 +1,6 @@
 async function realizarPedido() {
 
     const pedido = {
-        idUsuario: 1,
         productos: carrito
     };
 

@@ -5,12 +5,12 @@ formRegistro.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const nombre = document.getElementById("nombre").value;
-    const email = document.getElementById("email").value;
+    const correo = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
     const usuario = {
         nombre,
-        email,
+        correo,
         password
     }
 

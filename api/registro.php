@@ -14,14 +14,14 @@ try {
 
     if (
         !is_array($datos) ||
-        !isset($datos["nombre"], $datos["email"], $datos["password"])
+        !isset($datos["nombre"], $datos["correo"], $datos["password"])
     ) {
         throw new InvalidArgumentException("Faltan datos del registro");
     }
 
     if (
         !is_string($datos["nombre"]) ||
-        !is_string($datos["email"]) ||
+        !is_string($datos["correo"]) ||
         !is_string($datos["password"])
     ) {
         throw new InvalidArgumentException(
@@ -33,7 +33,7 @@ try {
 
     $resultado = $usuario->registrar(
         $datos["nombre"],
-        $datos["email"],
+        $datos["correo"],
         $datos["password"]
     );
 

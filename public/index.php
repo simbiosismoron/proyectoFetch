@@ -104,6 +104,7 @@ $conn = $database->getConnection();
 
         <script src="js/productos.js"></script>
         <script src="js/pedidos.js"></script>
+        </main>
 </body>
 
 </html>

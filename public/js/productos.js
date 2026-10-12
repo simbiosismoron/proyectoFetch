@@ -168,6 +168,28 @@ function mostrarCarrito() {
 
     contenedorCarrito.innerHTML = "";
 
+    if (carrito.length === 0) {
+    contenedorCarrito.innerHTML = `
+        <div class="col-12 text-center py-5">
+            <h3>Tu carrito está vacío</h3>
+            <p class="text-secondary">
+                Todavía no agregaste productos.
+            </p>
+            <button id="btnExplorar" class="btn btn-primary">
+                Explorar productos
+            </button>
+        </div>
+    `;
+
+    document.getElementById("btnExplorar")
+        .addEventListener("click", () => {
+            vistaCarrito.classList.add("d-none");
+            vistaCatalogo.classList.remove("d-none");
+        });
+
+    return;
+}
+
 
     carrito.forEach(producto => {
 

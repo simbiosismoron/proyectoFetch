@@ -28,9 +28,7 @@ async function realizarLogin(credenciales) {
 
         const mensajeLogin = document.getElementById('mensajeLogin');
         if (resultado.ok) {
-            mensajeLogin.textContent = "Inicio de sesión exitoso";
-            mensajeLogin.classList.remove("text-danger");
-            mensajeLogin.classList.add("text-success");
+                window.location.href = "index.php";
         } else {
             mensajeLogin.textContent = "Error al iniciar sesión";
             mensajeLogin.classList.remove("text-success");

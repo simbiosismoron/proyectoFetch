@@ -65,6 +65,23 @@ $conn = $database->getConnection();
                     </button>
 
                     <h2 class="mb-4">Mi carrito</h2>
+                    <div class="col-12 col-lg-4">
+
+                        <div class="border rounded p-4">
+
+                            <h3>Resumen del pedido</h3>
+
+                            <div id="resumenCarrito">
+                            </div>
+
+                            <button id="btnConfirmarPedido"
+                                class="btn btn-primary w-100 mt-3">
+                                Confirmar pedido
+                            </button>
+
+                        </div>
+
+                    </div>
 
                     <div class="row g-4">
 
@@ -80,25 +97,6 @@ $conn = $database->getConnection();
                                 class="btn btn-outline-danger mt-3">
                                 Vaciar carrito
                             </button>
-
-                        </div>
-
-                        <!-- Columna del resumen -->
-                        <div class="col-12 col-lg-4">
-
-                            <div class="border rounded p-4">
-
-                                <h3>Resumen del pedido</h3>
-
-                                <div id="resumenCarrito">
-                                </div>
-
-                                <button id="btnConfirmarPedido"
-                                    class="btn btn-primary w-100 mt-3">
-                                    Confirmar pedido
-                                </button>
-
-                            </div>
 
                         </div>
 

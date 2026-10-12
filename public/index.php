@@ -64,29 +64,55 @@ $conn = $database->getConnection();
                         Volver al catálogo
                     </button>
 
-                    <h2 class="text-primary">Mi carrito</h2>
+                    <h2 class="mb-4">Mi carrito</h2>
 
-                    <div id="carrito" class="row g-3">
+                    <div class="row g-4">
+
+                        <!-- Columna de productos -->
+                        <div class="col-12 col-lg-8">
+
+                            <h3>Productos</h3>
+
+                            <div id="carrito" class="row g-3">
+                            </div>
+
+                            <button id="vaciarCarrito"
+                                class="btn btn-outline-danger mt-3">
+                                Vaciar carrito
+                            </button>
+
+                        </div>
+
+                        <!-- Columna del resumen -->
+                        <div class="col-12 col-lg-4">
+
+                            <div class="border rounded p-4">
+
+                                <h3>Resumen del pedido</h3>
+
+                                <div id="resumenCarrito">
+                                </div>
+
+                                <button id="btnConfirmarPedido"
+                                    class="btn btn-primary w-100 mt-3">
+                                    Confirmar pedido
+                                </button>
+
+                            </div>
+
+                        </div>
+
                     </div>
-
-                    <button id="vaciarCarrito" class="btn btn-danger mt-3">
-                        Vaciar carrito
-                    </button>
 
                 </section>
 
-            </div>
 
 
 
 
-
-            <footer class="bg-light text-center py-4">
-                <p class="text-secondary mb-0">&copy; 2026 Pampa. Todos los derechos reservados.</p>
-            </footer>
-
-
-
+                <footer class="bg-light text-center py-4">
+                    <p class="text-secondary mb-0">&copy; 2026 Pampa. Todos los derechos reservados.</p>
+                </footer>
 
 
 
@@ -97,13 +123,16 @@ $conn = $database->getConnection();
 
 
 
-        <?php else: ?>
-            <h2>Conexión a la base de datos fallida</h2>
-            <p>Por favor, verifica la configuración de la base de datos.</p>
-        <?php endif; ?>
 
-        <script src="js/productos.js"></script>
-        <script src="js/pedidos.js"></script>
+
+
+            <?php else: ?>
+                <h2>Conexión a la base de datos fallida</h2>
+                <p>Por favor, verifica la configuración de la base de datos.</p>
+            <?php endif; ?>
+
+            <script src="js/productos.js"></script>
+            <script src="js/pedidos.js"></script>
         </main>
 </body>
 

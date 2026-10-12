@@ -188,6 +188,8 @@ function mostrarCarrito() {
         });
 
     return;
+} else {
+    contenedorCarrito.innerHTML = "";
 }
 
 
@@ -466,6 +468,12 @@ btnVolverCatalogo.addEventListener("click", () => {
     vistaCatalogo.classList.remove("d-none");
     aboutUs.classList.remove("d-none");
 });
+
+function calcularTotal() {
+    return carrito.reduce((total, producto) => {
+        return total + Number(producto.precio) * producto.cantidad;
+    }, 0);
+}
 
 obtenerProductos();
 mostrarCarrito();

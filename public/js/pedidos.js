@@ -1,5 +1,14 @@
 async function realizarPedido() {
 
+    const boton = document.getElementById("btnConfirmarPedido");
+
+    if (boton.disabled) {
+        return;
+    }
+
+boton.disabled = true;
+boton.textContent = "Procesando pedido...";
+
     const pedido = {
         productos: carrito
     };
@@ -32,19 +41,20 @@ async function realizarPedido() {
             guardarJSON();
             mostrarCarrito();
 
-            console.log("Pedido realizado con éxito.");
-
             await obtenerProductos();
 
-            console.log("Catálogo actualizado."); 
+            alert("Pedido realizado con éxito.");
 
         } else {
             alert(resultado.error || "No se pudo realizar el pedido");
         }
     } catch (error) {
-
         console.error("Error al realizar el pedido:", error);
+        alert("Error al realizar el pedido. Por favor, inténtalo de nuevo.");
 
+    } finally {
+        boton.disabled = false;
+        boton.textContent = "Confirmar pedido";
     }
 }
 

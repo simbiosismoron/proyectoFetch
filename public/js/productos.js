@@ -398,6 +398,10 @@ function mostrarCarrito() {
                             $${subtotal.toFixed(2)}
                         </strong>
 
+                        <button class="btn btn-outline-danger btn-eliminar" data-id="${producto.idProducto}">
+                            Eliminar
+                        </button>
+
                     </div>
 
                 </div>
@@ -434,6 +438,25 @@ function mostrarCarrito() {
             const idProducto = Number(boton.dataset.id);
 
             disminuirCantidad(idProducto);
+
+        });
+
+    });
+
+        const botonesEliminar = contenedorCarrito.querySelectorAll(".btn-eliminar");
+
+        botonesEliminar.forEach(boton => {
+
+        boton.addEventListener("click", () => {
+
+            const idProducto = Number(boton.dataset.id);
+
+            carrito = carrito.filter(
+                producto => Number(producto.idProducto) !== idProducto
+            );
+
+            guardarJSON();
+            mostrarCarrito();
 
         });
 

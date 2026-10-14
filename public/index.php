@@ -57,6 +57,7 @@ $conn = $database->getConnection();
 
                 </section>
 
+
                 <section id="vistaCarrito" class="d-none">
 
                     <button id="btnVolverCatalogo" class="btn btn-secondary mb-4">

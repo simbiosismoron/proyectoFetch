@@ -59,44 +59,43 @@ $conn = $database->getConnection();
 
                 <section id="vistaCarrito" class="d-none">
 
-                    <button id="btnVolverCatalogo"
-                        class="btn btn-secondary mb-4">
+                    <button id="btnVolverCatalogo" class="btn btn-secondary mb-4">
                         Volver al catálogo
                     </button>
 
                     <h2 class="mb-4">Mi carrito</h2>
-                    <div class="col-12 col-lg-4">
-
-                        <div class="border rounded p-4">
-
-                            <h3>Resumen del pedido</h3>
-
-                            <div id="resumenCarrito">
-                            </div>
-
-                            <button id="btnConfirmarPedido"
-                                class="btn btn-primary w-100 mt-3">
-                                Confirmar pedido
-                            </button>
-
-                        </div>
-
-                    </div>
 
                     <div class="row g-4">
 
-                        <!-- Columna de productos -->
+                        <!-- Productos: 8 columnas -->
                         <div class="col-12 col-lg-8">
 
                             <h3>Productos</h3>
 
-                            <div id="carrito" class="row g-3">
-                            </div>
+                            <div id="carrito" class="row g-3"></div>
 
                             <button id="vaciarCarrito"
                                 class="btn btn-outline-danger mt-3">
                                 Vaciar carrito
                             </button>
+
+                        </div>
+
+                        <!-- Resumen: 4 columnas -->
+                        <div class="col-12 col-lg-4">
+
+                            <div id="resumenPedido" class="border rounded p-4">
+
+                                <h3>Resumen del pedido</h3>
+
+                                <div id="resumenCarrito"></div>
+
+                                <button id="btnConfirmarPedido"
+                                    class="btn btn-primary w-100 mt-3">
+                                    Confirmar pedido
+                                </button>
+
+                            </div>
 
                         </div>
 

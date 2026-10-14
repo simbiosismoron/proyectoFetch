@@ -168,6 +168,8 @@ function mostrarCarrito() {
 
     contenedorCarrito.innerHTML = "";
 
+    mostrarResumen();
+
     if (carrito.length === 0) {
     contenedorCarrito.innerHTML = `
         <div class="col-12 text-center py-5">
@@ -474,6 +476,29 @@ function calcularTotal() {
         return total + Number(producto.precio) * producto.cantidad;
     }, 0);
 }
+
+function mostrarResumen() {
+    const contenedor = document.getElementById("resumenCarrito");
+    const resumenCarrito = document.getElementById("resumenPedido");
+    if (carrito.length === 0) {
+        resumenCarrito.classList.add("d-none");
+        return;
+    }
+
+    resumenCarrito.classList.remove("d-none");
+
+    const total = calcularTotal();
+
+    contenedor.innerHTML = `
+        <div class="d-flex justify-content-between mt-3">
+            <span>Total:</span>
+            <strong>$${total.toFixed(2)}</strong>
+        </div>
+    `;
+
+}
+
+console.log(carrito)
 
 obtenerProductos();
 mostrarCarrito();

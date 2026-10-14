@@ -48,7 +48,7 @@ async function realizarPedido() {
     }
 }
 
-const botonPedido = document.getElementById("realizarPedido");
+const botonPedido = document.getElementById("btnConfirmarPedido");
 
 botonPedido.addEventListener("click", () => {
 

@@ -23,8 +23,52 @@ try {
         exit;
     }
 
+    if (
+        !is_array($datos) ||
+        !isset($datos['productos']) ||
+        !is_array($datos['productos']) ||
+        count($datos['productos']) === 0
+    ) {
+        http_response_code(400);
+        echo json_encode([
+            "ok" => false,
+            "error" => "Datos de pedido inválidos"
+        ]);
+        exit;
+    }
+
+    foreach ($datos["productos"] as $producto) {
+
+        if (
+            !is_array($producto) ||
+            !isset($producto["idProducto"], $producto["cantidad"]) ||
+            filter_var($producto["idProducto"], FILTER_VALIDATE_INT) === false ||
+            (int) $producto["idProducto"] <= 0 ||
+            !is_numeric($producto["cantidad"]) ||
+            !is_finite((float) $producto["cantidad"]) ||
+            (float) $producto["cantidad"] <= 0
+        ) {
+            http_response_code(400);
+
+            echo json_encode([
+                "ok" => false,
+                "error" => "El pedido contiene productos inválidos"
+            ]);
+
+            exit;
+        }
+    }
+
     $resultado = $pedido->realizarPedido($_SESSION['idUsuario'], $datos['productos']);
     echo json_encode($resultado);
+} catch (InvalidArgumentException $e) {
+
+    http_response_code(400);
+
+    echo json_encode([
+        "ok" => false,
+        "error" => $e->getMessage()
+    ]);
 } catch (Throwable $e) {
 
     http_response_code(500);

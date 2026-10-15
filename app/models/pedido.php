@@ -16,44 +16,65 @@ class pedido
     {
         $total = 0;
         $itemsvalidados = [];
-
-        foreach ($productos as $producto) {
-
-            $idProducto = $producto['idProducto'];
-
-            $sql = "SELECT * FROM productos WHERE idProducto = :idProducto";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute([
-                'idProducto' => $idProducto
-            ]);
-
-            $productobd = $stmt->fetch();
-            if (!$productobd) {
-                throw new Exception("Producto no encontrado: " . $idProducto);
-            }
-
-            $cantidad = (float) $producto['cantidad'];
-
-            if ($cantidad < 0) {
-                throw new Exception("Cantidad no válida para el producto: " . $idProducto);
-            }
-            if ($cantidad > $productobd['stock']) {
-                throw new Exception("Cantidad solicitada excede el stock disponible para el producto: " . $idProducto);
-            }
-
-            $precio = (float) $productobd['precio'];
-            $subTotal = $cantidad * $precio;
-            $total += $subTotal;
-            $itemsvalidados[] = [
-                'idProducto' => $idProducto,
-                'cantidad' => $cantidad,
-                'precio' => $precio,
-                'subTotal' => $subTotal
-            ];
-        }
+        $idsProcesados = [];
 
         $this->conn->beginTransaction();
         try {
+
+
+            foreach ($productos as $producto) {
+
+                $idProducto = $producto['idProducto'];
+                if (in_array($idProducto, $idsProcesados)) {
+                    throw new InvalidArgumentException("Producto esta duplicado en el pedido: " . $idProducto);
+                }
+                $idsProcesados[] = $idProducto;
+
+                $sql = "SELECT * FROM productos WHERE idProducto = :idProducto FOR UPDATE";
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute([
+                    'idProducto' => $idProducto
+                ]);
+
+                $productobd = $stmt->fetch();
+                if (!$productobd) {
+                    throw new Exception("Producto no encontrado: " . $idProducto);
+                }
+
+                $cantidad = (float) $producto['cantidad'];
+
+                if ($cantidad <= 0) {
+                    throw new Exception("Cantidad no válida para el producto: " . $idProducto);
+                }
+
+                $incremento = (float) $productobd["incremento"];
+
+                if ($incremento <= 0) {
+                    throw new RuntimeException("Incremento mal configurado");
+                }
+
+                $unidades = $cantidad / $incremento;
+                if (abs($unidades - round($unidades)) > 0.00001) {
+                    throw new InvalidArgumentException(
+                        "La cantidad no respeta el incremento del producto " . $idProducto
+                    );
+                }
+
+                if ($cantidad > $productobd['stock']) {
+                    throw new Exception("Cantidad solicitada excede el stock disponible para el producto: " . $idProducto);
+                }
+
+                $precio = (float) $productobd['precio'];
+                $subTotal = $cantidad * $precio;
+                $total += $subTotal;
+                $itemsvalidados[] = [
+                    'idProducto' => $idProducto,
+                    'cantidad' => $cantidad,
+                    'precio' => $precio,
+                    'subTotal' => $subTotal
+                ];
+            }
+
             $sql = "INSERT INTO ventas (idUsuario, fecha, total, estadoPago, estadoEnvio)
             values (:idUsuario, NOW(), :total, :estadoPago, :estadoEnvio)";
 
@@ -95,7 +116,7 @@ class pedido
             }
 
             $this->conn->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->conn->rollBack();
             throw $e;
         }

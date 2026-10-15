@@ -26,9 +26,21 @@ boton.textContent = "Procesando pedido...";
         });
 
         if (!respuesta.ok) {
-            const errorText = await respuesta.text();
-            alert(errorText || "Error del servidor");
+            if (respuesta.status === 401) {
+                const mensaje = document.getElementById("mensajeCheckout");
+
+                mensaje.innerHTML = `
+                    <div class="alert alert-warning" role="alert">
+                        Debés iniciar sesión para confirmar tu pedido.
+
+                        <a href="login.html" class="alert-link">
+                            Iniciar sesión
+                        </a>
+                    </div>
+            `};
+            
             return;
+
         }
 
         const resultado = await respuesta.json();

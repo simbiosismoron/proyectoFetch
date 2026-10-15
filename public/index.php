@@ -96,6 +96,8 @@ $conn = $database->getConnection();
                                     Confirmar pedido
                                 </button>
 
+                                <div id="mensajeCheckout" class="mt-3"></div>
+
                             </div>
 
                         </div>

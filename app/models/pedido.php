@@ -1,6 +1,8 @@
 <?php
 
 require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../exceptions/StockInsuficienteException.php";
+require_once __DIR__ . "/../exceptions/ProductoNoEncontradoException.php";
 
 class pedido
 {
@@ -38,7 +40,7 @@ class pedido
 
                 $productobd = $stmt->fetch();
                 if (!$productobd) {
-                    throw new Exception("Producto no encontrado: " . $idProducto);
+                    throw new ProductoNoEncontradoException("Producto no encontrado: " . $idProducto);
                 }
 
                 $cantidad = (float) $producto['cantidad'];
@@ -61,7 +63,7 @@ class pedido
                 }
 
                 if ($cantidad > $productobd['stock']) {
-                    throw new Exception("Cantidad solicitada excede el stock disponible para el producto: " . $idProducto);
+                    throw new StockInsuficienteException("Cantidad solicitada excede el stock disponible para el producto: " . $idProducto);
                 }
 
                 $precio = (float) $productobd['precio'];

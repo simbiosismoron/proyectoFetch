@@ -4,6 +4,7 @@ session_start();
 
 header("Content-Type: application/json; charset=UTF-8");
 require_once __DIR__ . "/../app/models/pedido.php";
+require_once __DIR__ . "/../app/exceptions/StockInsuficienteException.php";
 
 $pedido = new pedido();
 
@@ -64,6 +65,22 @@ try {
 } catch (InvalidArgumentException $e) {
 
     http_response_code(400);
+
+    echo json_encode([
+        "ok" => false,
+        "error" => $e->getMessage()
+    ]);
+} catch (StockInsuficienteException $e) {
+
+    http_response_code(409);
+
+    echo json_encode([
+        "ok" => false,
+        "error" => $e->getMessage()
+    ]);
+} catch (ProductoNoEncontradoException $e) {
+
+    http_response_code(404);
 
     echo json_encode([
         "ok" => false,

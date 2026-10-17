@@ -1,4 +1,32 @@
+function mostrarMensajeCheckout(texto, tipo = "danger", link = null) {
+    const contenedor = document.getElementById("mensajeCheckout");
+
+    contenedor.textContent = "";
+
+    const alerta = document.createElement("div");
+    alerta.className = `alert alert-${tipo}`;
+    alerta.setAttribute("role", "alert");
+
+    alerta.textContent = texto;
+
+    if (link) {
+        const enlace = document.createElement("a");
+
+        enlace.href = link.url;
+        enlace.textContent = link.texto;
+        enlace.className = "alert-link ms-2";
+
+        alerta.appendChild(enlace);
+    }
+
+    contenedor.appendChild(alerta);
+}
+
+
 async function realizarPedido() {
+    
+    const mensajeCheckout = document.getElementById("mensajeCheckout");
+    mensajeCheckout.textContent = "";
 
     const boton = document.getElementById("btnConfirmarPedido");
 
@@ -27,20 +55,16 @@ boton.textContent = "Procesando pedido...";
 
         if (!respuesta.ok) {
             if (respuesta.status === 401) {
-                const mensaje = document.getElementById("mensajeCheckout");
-
-                mensaje.innerHTML = `
-                    <div class="alert alert-warning" role="alert">
-                        Debés iniciar sesión para confirmar tu pedido.
-
-                        <a href="login.html" class="alert-link">
-                            Iniciar sesión
-                        </a>
-                    </div>
-            `};
-            
-            return;
-
+                mostrarMensajeCheckout(
+            "Debés iniciar sesión.",
+            "warning",
+            { url: "login.html", texto: "Iniciar sesión" }
+        );
+                return;
+            }
+        const resultadoerror = await respuesta.json();
+        mostrarMensajeCheckout(resultadoerror.error || "No se pudo procesar el pedido");
+        return;
         }
 
         const resultado = await respuesta.json();
@@ -55,14 +79,14 @@ boton.textContent = "Procesando pedido...";
 
             await obtenerProductos();
 
-            alert("Pedido realizado con éxito.");
+            mostrarMensajeCheckout("Pedido realizado con éxito.", "success");
 
         } else {
-            alert(resultado.error || "No se pudo realizar el pedido");
+            mostrarMensajeCheckout(resultado.error || "No se pudo realizar el pedido");
         }
     } catch (error) {
         console.error("Error al realizar el pedido:", error);
-        alert("Error al realizar el pedido. Por favor, inténtalo de nuevo.");
+        mostrarMensajeCheckout("Error al realizar el pedido. Por favor, inténtalo de nuevo.");
 
     } finally {
         boton.disabled = false;

@@ -10,6 +10,9 @@ $conn = $database->getConnection();
 
 
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,6 +27,9 @@ $conn = $database->getConnection();
         <h1 class="display-4 text-primary">Pampa</h1>
         <nav>
             <ul class="nav nav-pills">
+                <button id="btnVerMisPedidos" class="btn btn-outline-primary">
+                    Mis pedidos
+                </button>
                 <button id="btnVerCarrito" class="btn btn-outline-primary ms-3">
                     Carrito
                 </button>
@@ -107,7 +113,20 @@ $conn = $database->getConnection();
 
                 </section>
 
+                <section id="vistaMisPedidos" class="d-none">
 
+                    <button id="btnVolverDesdePedidos" class="btn btn-secondary mb-4">
+                        Volver al catálogo
+                    </button>
+
+                    <h2 class="mb-4">Mis pedidos</h2>
+
+                    <div id="mensajeMisPedidos"></div>
+
+                    <div id="contenedorMisPedidos" class="row g-3">
+                    </div>
+
+                </section>
 
 
 
@@ -132,6 +151,9 @@ $conn = $database->getConnection();
                 <p>Por favor, verifica la configuración de la base de datos.</p>
             <?php endif; ?>
 
+
+
+            <script src="js/mis-pedidos.js"></script>
             <script src="js/productos.js"></script>
             <script src="js/pedidos.js"></script>
         </main>

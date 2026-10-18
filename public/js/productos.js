@@ -581,6 +581,7 @@ const btnVolverCatalogo = document.getElementById("btnVolverCatalogo");
 btnVerCarrito.addEventListener("click", () => {
 
     vistaCatalogo.classList.add("d-none");
+    vistaMisPedidos.classList.add("d-none");
     vistaCarrito.classList.remove("d-none");
 
     if (aboutUs) {
@@ -588,6 +589,38 @@ btnVerCarrito.addEventListener("click", () => {
     }
 
 });
+
+
+const btnVerMisPedidos = document.getElementById("btnVerMisPedidos");
+const vistaMisPedidos = document.getElementById("vistaMisPedidos");
+
+btnVerMisPedidos.addEventListener("click", () => {
+
+    vistaCatalogo.classList.add("d-none");
+    vistaCarrito.classList.add("d-none");
+
+    vistaMisPedidos.classList.remove("d-none");
+
+    if (aboutUs) {
+        aboutUs.classList.add("d-none");
+    }
+
+        cargarMisPedidos();
+});
+
+const btnVolverDesdePedidos = document.getElementById("btnVolverDesdePedidos");
+
+btnVolverDesdePedidos.addEventListener("click", () => {
+
+    vistaMisPedidos.classList.add("d-none");
+    vistaCatalogo.classList.remove("d-none");
+
+    if (aboutUs) {
+        aboutUs.classList.remove("d-none");
+    }
+
+});
+
 
 btnVolverCatalogo.addEventListener("click", () => {
 

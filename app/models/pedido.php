@@ -14,6 +14,76 @@ class pedido
         $this->conn = $database->getConnection();
     }
 
+    public function obtenerItemsPorVenta(int $idVenta): array
+    {
+        $sql = "SELECT
+                    i.idProducto,
+                    p.nombre,
+                    i.cantidad,
+                    i.precio,
+                    i.subtotal
+                FROM items AS i
+                LEFT JOIN productos AS p
+                    ON i.idProducto = p.idProducto
+                WHERE i.idVenta = :idVenta";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            "idVenta" => $idVenta
+        ]);
+
+        return $stmt->fetchAll();
+    }
+
+
+
+    public function obtenerPedidosPorUsuario(int $idUsuario): array
+    {
+        $sql = "SELECT idVenta, fecha, total, estadoPago, estadoEnvio
+        FROM ventas
+        WHERE idUsuario = :idUsuario
+        ORDER BY fecha DESC, idVenta DESC";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            "idUsuario" => $idUsuario
+        ]);
+
+        return $stmt->fetchALL();
+    }
+
+
+
+    public function obtenerItemsPorVentas(array $ids): array
+    {
+        if (empty($ids)) {
+            return [];
+        }
+
+        $placeholders = implode(",", array_fill(0, count($ids), "?"));
+
+        $sql = "SELECT
+                    i.idVenta,
+                    i.idProducto,
+                    p.nombre,
+                    i.cantidad,
+                    i.precio,
+                    i.subtotal
+                FROM items AS i
+                LEFT JOIN productos AS p
+                    ON i.idProducto = p.idProducto
+                WHERE i.idVenta IN ($placeholders)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($ids);
+
+        return $stmt->fetchAll();
+    }
+
+
+
     public function realizarPedido($idUsuario, $productos)
     {
         $total = 0;

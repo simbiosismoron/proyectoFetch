@@ -3,8 +3,9 @@
 session_start();
 
 header("Content-Type: application/json; charset=UTF-8");
-require_once __DIR__ . "/../app/models/pedido.php";
-require_once __DIR__ . "/../app/exceptions/StockInsuficienteException.php";
+require_once __DIR__ . "/../../app/models/pedido.php";
+require_once __DIR__ . "/../../app/exceptions/StockInsuficienteException.php";
+require_once __DIR__ . "/../../app/exceptions/ProductoNoEncontradoException.php";
 
 $pedido = new pedido();
 
@@ -45,9 +46,8 @@ try {
             !isset($producto["idProducto"], $producto["cantidad"]) ||
             filter_var($producto["idProducto"], FILTER_VALIDATE_INT) === false ||
             (int) $producto["idProducto"] <= 0 ||
-            !is_numeric($producto["cantidad"]) ||
-            !is_finite((float) $producto["cantidad"]) ||
-            (float) $producto["cantidad"] <= 0
+            filter_var($producto["cantidad"], FILTER_VALIDATE_INT) === false ||
+            (int) $producto["cantidad"] <= 0
         ) {
             http_response_code(400);
 

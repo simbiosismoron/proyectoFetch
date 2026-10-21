@@ -42,7 +42,7 @@ try {
     $_SESSION["nombre"] = $resultado["nombre"];
 
     echo json_encode([
-        "ok" => true,
+        "ok" => true
         "usuario" => $resultado
     ]);
 } catch (InvalidArgumentException $e) {
@@ -60,4 +60,6 @@ try {
         "ok" => false,
         "error" => "Error interno del servidor"
     ]);
-}
+}   
+
+

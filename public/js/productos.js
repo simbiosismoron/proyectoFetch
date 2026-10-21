@@ -15,7 +15,7 @@ let carrito = carritoGuardado
 
 async function obtenerProductos() {
     try {
-        const respuesta = await fetch("../api/productos.php");
+        const respuesta = await fetch("/api/productos.php");
 
         if (!respuesta.ok) {
             throw new Error("No se pudieron obtener los productos");

@@ -4,8 +4,8 @@ class Database
 {
     private string $host = "localhost";
     private string $db_name = "ppampa";
-    private string $username = "root";
-    private string $password = "";
+    private string $username = "pampa_app";
+    private string $password = "1234";
 
     private ?PDO $conn = null;
     public function getConnection(): ?PDO

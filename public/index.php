@@ -54,6 +54,20 @@ $conn = $database->getConnection();
 
                     <h2 class="text-primary">Productos</h2>
 
+                        <div class="mb-4">
+                            <label for="buscadorProductos" class="form-label">
+                                Buscar productos
+                            </label>
+
+                            <input
+                                type="search"
+                                id="buscadorProductos"
+                                class="form-control"
+                                placeholder="Buscar por nombre..."
+                                autocomplete="off"
+                            >
+                        </div>
+
                     <p class="text-dark fs-5">
                         Explora nuestra gama de productos.
                     </p>

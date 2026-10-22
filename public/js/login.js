@@ -16,7 +16,7 @@ formLogin.addEventListener("submit", (e) => {
 
 async function realizarLogin(credenciales) {
     try {
-        const respuesta = await fetch("../api/login.php", {
+        const respuesta = await fetch("/../api/login.php", {
             method: "POST",
             headers: {
                 "Content-type" : "application/json"
@@ -45,7 +45,7 @@ async function realizarLogin(credenciales) {
 
 async function cerrarSesion() {
     try {
-        const respuesta = await fetch("../api/logout.php", {
+        const respuesta = await fetch("/../api/logout.php", {
             method: "POST"
         });
 

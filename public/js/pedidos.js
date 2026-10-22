@@ -34,16 +34,19 @@ async function realizarPedido() {
         return;
     }
 
-boton.disabled = true;
-boton.textContent = "Procesando pedido...";
+    boton.disabled = true;
+    boton.textContent = "Procesando pedido...";
 
     const pedido = {
-        productos: carrito
+        productos: carrito.map(producto => ({
+            idProducto: Number(producto.idProducto),
+            cantidad: Number(producto.cantidad)
+        }))
     };
 
     try {
 
-        const respuesta = await fetch("../api/pedidos.php", {
+        const respuesta = await fetch("/api/pedidos.php", {
             method: "POST",
 
             headers: {

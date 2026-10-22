@@ -9,6 +9,10 @@ let carrito = carritoGuardado
     : [];
 
 
+let todosLosProductos = [];
+
+
+
 // ==========================================
 // 2. OBTENER PRODUCTOS DESDE LA API
 // ==========================================
@@ -23,11 +27,32 @@ async function obtenerProductos() {
 
         const productos = await respuesta.json();
 
+        todosLosProductos = productos;
+
         mostrarProductos(productos);
+
 
     } catch (error) {
         console.error("Error al obtener los productos:", error);
     }
+}
+
+
+//  Buscador de productos
+
+const buscadorProductos = document.getElementById("buscadorProductos");
+buscadorProductos.addEventListener("input", filtrarProductos);
+
+// Función filtrado de productos por nombre
+
+function filtrarProductos() {
+    const busqueda = buscadorProductos.value.trim().toLowerCase();
+
+    const productosFiltrados = todosLosProductos.filter(producto =>
+        producto.nombre.toLowerCase().includes(busqueda)
+    );
+
+    mostrarProductos(productosFiltrados); 
 }
 
 
@@ -75,9 +100,11 @@ function mostrarProductos(productos) {
             "h-100"
         );
 
+        const imagen = producto.foto || 'default.png';
+
         productoElemento.style.setProperty(
             "--imagen-producto",
-            `url("img/productos/${producto.foto}")`
+            `url("img/productos/${imagen}")`
         );
 
         productoElemento.innerHTML = `
@@ -122,10 +149,10 @@ function mostrarProductos(productos) {
 
                 } else {
 
-                    const cantidadInicial = Number(productoSeleccionado.incremento);
+                    const cantidadInicial = 1;
                     const stock = Number(productoSeleccionado.stock);
 
-                    if (cantidadInicial <= 0 || cantidadInicial > stock) {
+                    if (!Number.isInteger(stock) || stock < cantidadInicial) {
                         alert("Stock insuficiente o incremento inválido");
                         return;
                     }
@@ -175,23 +202,15 @@ function aumentarCantidad(idProducto) {
         return;
     }
 
-    const incremento = Number(producto.incremento);
     const cantidadActual = Number(producto.cantidad);
     const stock = Number(producto.stock);
 
-    if (incremento <= 0 || !Number.isFinite(incremento)) {
-        alert("Incremento inválido");
-        return;
-    }
-
-    const nuevaCantidad = Number(
-        (cantidadActual + incremento).toFixed(3)
-    );
-
-    if (nuevaCantidad > stock) {
+    if (cantidadActual + 1 > stock) {
         alert("Cantidad máxima de stock alcanzada");
         return;
     }
+
+    const nuevaCantidad = cantidadActual + 1;
 
     producto.cantidad = nuevaCantidad;
 
@@ -215,20 +234,11 @@ function disminuirCantidad(idProducto) {
         return;
     }
 
-    const incremento = Number(producto.incremento);
     const cantidadActual = Number(producto.cantidad);
 
-    if (incremento <= 0 || !Number.isFinite(incremento)) {
-        return;
-    }
+    if (cantidadActual > 1) {
 
-    const nuevaCantidad = Number(
-        (cantidadActual - incremento).toFixed(3)
-    );
-
-    if (nuevaCantidad > 0) {
-
-        producto.cantidad = nuevaCantidad;
+        producto.cantidad = cantidadActual - 1;
 
     } else {
 
@@ -489,7 +499,7 @@ async function verificarSesion() {
 
     try {
 
-        const respuesta = await fetch("../api/sesion.php");
+        const respuesta = await fetch("/../api/sesion.php");
 
         const resultado = await respuesta.json();
 
@@ -542,10 +552,10 @@ async function cerrarSesion() {
 
     try {
 
-        const respuesta = await fetch("../api/logout.php", {
+        const respuesta = await fetch("/../api/logout.php", {
             method: "POST"
         });
-
+        
         const resultado = await respuesta.json();
 
         if (respuesta.ok && resultado.ok) {

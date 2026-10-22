@@ -21,20 +21,28 @@ formRegistro.addEventListener("submit", (e) => {
 
 async function registrarUsuario(usuario) {
     try {
-        const respuesta = await fetch ("../api/registro.php", {
+        const respuesta = await fetch ("/../api/registro.php", {
             method: "POST",
             headers: {
                 "Content-type" : "application/json"
             },
             body: JSON.stringify(usuario)
         });
-        
+        const iniciarsesion = document.getElementById("iniciar");
         const resultado = await respuesta.json();
         const mensajeregistro = document.getElementById("mensajeRegistro");
         if (resultado.ok) {
 
+            iniciarsesion.textContent = "";
+
             mensajeregistro.textContent = "Usuario registrado correctamente";
             mensajeregistro.className = "mt-3 text-success";
+
+            iniciarsesion.textContent = "Inicia sesión para continuar";
+            iniciarsesion.className = "mt-3 text-info";
+            iniciarsesion.textContent = "Inicia sesión para continuar";
+            iniciarsesion.classList.remove("d-none");
+
 
     } else {
 

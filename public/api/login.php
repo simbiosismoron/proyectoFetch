@@ -4,7 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 session_start();
 
-require_once __DIR__ . "/../app/models/usuario.php";
+require_once __DIR__ . "/../../app/models/usuario.php";
 
 try {
     $datos = json_decode(file_get_contents("php://input"), true);
@@ -22,7 +22,7 @@ try {
 
     $resultado = $usuario->iniciarSesion(
         $datos["email"],
-        $datos["password"]
+        $datos["password"],
     );
 
     if (!$resultado) {
@@ -40,11 +40,13 @@ try {
 
     $_SESSION["idUsuario"] = $resultado["idUsuario"];
     $_SESSION["nombre"] = $resultado["nombre"];
+    $_SESSION["rol"] = $resultado["rol"];
 
     echo json_encode([
-        "ok" => true
+        "ok" => true,
         "usuario" => $resultado
     ]);
+
 } catch (InvalidArgumentException $e) {
     http_response_code(400);
 

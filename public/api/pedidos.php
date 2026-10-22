@@ -7,14 +7,24 @@ require_once __DIR__ . "/../../app/models/pedido.php";
 require_once __DIR__ . "/../../app/exceptions/StockInsuficienteException.php";
 require_once __DIR__ . "/../../app/exceptions/ProductoNoEncontradoException.php";
 
-$pedido = new pedido();
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Allow: POST");
+    http_response_code(405);
 
-$datos = json_decode(
-    file_get_contents("php://input"),
-    true
-);
+    echo json_encode([
+        "ok" => false,
+        "error" => "Método HTTP no permitido"
+    ]);
+
+    exit;
+}
+
 
 try {
+        $datos = json_decode(
+        file_get_contents("php://input"),
+        true
+        );
 
     if (!isset($_SESSION["idUsuario"])) {
         http_response_code(401);
@@ -59,6 +69,8 @@ try {
             exit;
         }
     }
+
+    $pedido = new pedido();
 
     $resultado = $pedido->realizarPedido($_SESSION['idUsuario'], $datos['productos']);
     echo json_encode($resultado);

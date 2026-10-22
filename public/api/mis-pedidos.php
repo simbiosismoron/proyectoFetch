@@ -4,7 +4,7 @@ session_start();
 
 header("Content-Type: application/json; charset=UTF-8");
 
-require_once __DIR__ . "/../app/models/pedido.php";
+require_once __DIR__ . "/../../app/models/pedido.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "GET") {
     header("Allow: GET");

@@ -80,7 +80,7 @@ class usuario
     public function iniciarSesion($email, $password)
     {
 
-        $sql = "SELECT idUsuario, nombre, email, password
+        $sql = "SELECT idUsuario, nombre, email, rol, password
         FROM usuarios
         WHERE email = :email";
 
@@ -95,7 +95,7 @@ class usuario
         if (!$usuario) {
             return false;
         }
-
+    
         if (!password_verify($password, $usuario["password"])) {
             return false;
         }
@@ -103,7 +103,27 @@ class usuario
         return [
             "idUsuario" => (int) $usuario["idUsuario"],
             "nombre" => $usuario["nombre"],
-            "email" => $usuario["email"]
+            "email" => $usuario["email"],
+            "rol" => $usuario["rol"]
         ];
+    }
+
+    public function obtenerRolPorId(int $idUsuario): ?string 
+    {
+
+        $sql = "SELECT rol 
+        FROM usuarios
+        WHERE idUsuario = :idUsuario";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            "idUsuario" => $idUsuario
+        ]);
+
+        $rol = $stmt->fetchColumn();
+
+        return $rol === false ? null : $rol;
+
     }
 }

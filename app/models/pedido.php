@@ -113,24 +113,17 @@ class pedido
                     throw new ProductoNoEncontradoException("Producto no encontrado: " . $idProducto);
                 }
 
-                $cantidad = (float) $producto['cantidad'];
+                $cantidad = filter_var(
+                $producto['cantidad'] ?? null,
+                FILTER_VALIDATE_INT
+                );
 
-                if ($cantidad <= 0) {
-                    throw new Exception("Cantidad no válida para el producto: " . $idProducto);
-                }
-
-                $incremento = (float) $productobd["incremento"];
-
-                if ($incremento <= 0) {
-                    throw new RuntimeException("Incremento mal configurado");
-                }
-
-                $unidades = $cantidad / $incremento;
-                if (abs($unidades - round($unidades)) > 0.00001) {
+                if ($cantidad === false || $cantidad <= 0) {
                     throw new InvalidArgumentException(
-                        "La cantidad no respeta el incremento del producto " . $idProducto
+                        "Cantidad inválida para el producto: " . $idProducto
                     );
                 }
+
 
                 if ($cantidad > $productobd['stock']) {
                     throw new StockInsuficienteException("Cantidad solicitada excede el stock disponible para el producto: " . $idProducto);

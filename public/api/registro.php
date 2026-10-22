@@ -2,7 +2,7 @@
 header("Content-Type: application/json; charset=UTF-8");
 
 
-require_once __DIR__ . "/../app/models/usuario.php";
+require_once __DIR__ . "/../../app/models/usuario.php";
 
 $datos = json_decode(
     file_get_contents("php://input"),

@@ -7,13 +7,15 @@ header("Content-Type: application/json; charset=UTF-8");
 require_once __DIR__ . "/../../../app/middleware/admin.php";
 require_once __DIR__ . "/../../../app/models/producto.php";
 
-if ($_SERVER["REQUEST_METHOD" !== "POST"]) {
-    header ("Allow: POST");
+$metodo = $_SERVER["REQUEST_METHOD"];
+
+if (!in_array($metodo, ["GET", "POST"], true)) {
+    header("Allow: GET, POST");
     http_response_code(405);
 
     echo json_encode([
         "ok" => false,
-        "error" => "Método http no autorizado"
+        "error" => "Método HTTP no permitido"
     ]);
 
     exit;
@@ -21,6 +23,16 @@ if ($_SERVER["REQUEST_METHOD" !== "POST"]) {
 
 try {
     exigirAdmin();
+
+    if ($metodo === "GET") {
+        $producto = new Producto();
+
+        $productos = $producto->obtenerTodosAdmin();
+
+        echo json_encode($productos);
+
+        exit;
+    }
 
     $datos = json_decode(
         file_get_contents("php://input"), true

@@ -80,7 +80,24 @@ class Producto
 
         return (int) $this->conn->lastInsertId();
     }
+    
 
+    public function obtenerPorId(int $idProducto): ?array
+    {
+        $sql = "SELECT *
+                FROM productos
+                WHERE idProducto = :idProducto";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            "idProducto" => $idProducto
+        ]);
+
+        $producto = $stmt->fetch();
+
+        return $producto === false ? null : $producto;
+    }
 
     public function actualizar(int $idProducto, array $datos): bool
     {

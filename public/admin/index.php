@@ -179,10 +179,8 @@ exigirAdmin(false);
             <div class="card-body">
 
                 <h3 class="card-title mb-4">Administrar productos</h3>
-
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover align-middle">
-
+                    <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>ID</th>

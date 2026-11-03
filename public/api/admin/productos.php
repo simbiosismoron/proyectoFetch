@@ -10,8 +10,9 @@ require_once __DIR__ . "/../../../app/validators/productoValidator.php";
 
 $metodo = $_SERVER["REQUEST_METHOD"];
 
-if (!in_array($metodo, ["GET", "POST"], true)) {
-    header("Allow: GET, POST");
+if (!in_array($metodo, ["GET", "POST", "PUT"], true)) {
+    header("Allow: GET, POST, PUT");
+    
     http_response_code(405);
 
     echo json_encode([
@@ -28,9 +29,92 @@ try {
     if ($metodo === "GET") {
         $producto = new Producto();
 
+        if (isset($_GET["idProducto"])) {
+            $idProducto = filter_var(
+                $_GET["idProducto"],
+                FILTER_VALIDATE_INT,
+                ["options" => ["min_range" => 1]]
+            );
+
+            if ($idProducto === false) {
+                throw new InvalidArgumentException(
+                    "El identificador del producto no es válido"
+                );
+            }
+
+            $productoEncontrado = $producto->obtenerPorId($idProducto);
+
+            if ($productoEncontrado === null) {
+                http_response_code(404);
+
+                echo json_encode([
+                    "ok" => false,
+                    "error" => "El producto no existe"
+                ]);
+
+                exit;
+            }
+
+            echo json_encode($productoEncontrado);
+
+            exit;
+        }
+
         $productos = $producto->obtenerTodosAdmin();
 
         echo json_encode($productos);
+
+        exit;
+    }
+
+    if ($metodo === "PUT") {
+
+        $datos = json_decode(
+            file_get_contents("php://input"),
+            true
+        );
+
+        if (!is_array($datos) || array_is_list($datos)) {
+            throw new InvalidArgumentException(
+                "Se esperaba un objeto JSON válido"
+            );
+        }
+
+        if (
+            !isset($datos["idProducto"]) ||
+            !is_int($datos["idProducto"]) ||
+            $datos["idProducto"] <= 0
+        ) {
+            throw new InvalidArgumentException(
+                "El identificador del producto no es válido"
+            );
+        }
+
+        $idProducto = $datos["idProducto"];
+
+        $datos = validarDatosProducto($datos);
+
+        $producto = new Producto();
+
+        $productoExistente = $producto->obtenerPorId($idProducto);
+
+        if ($productoExistente === null) {
+            http_response_code(404);
+
+            echo json_encode([
+                "ok" => false,
+                "error" => "El producto no existe"
+            ]);
+
+            exit;
+        }
+
+        $producto->actualizar($idProducto, $datos);
+
+        echo json_encode([
+            "ok" => true,
+            "mensaje" => "Producto actualizado correctamente"
+        ]);
 
         exit;
     }
@@ -44,6 +128,7 @@ try {
             "El objeto no es JSON"
         );
     }
+
 
     $datos = validarDatosProducto($datos);
 

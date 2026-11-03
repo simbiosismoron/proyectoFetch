@@ -164,8 +164,16 @@ exigirAdmin(false);
 
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-4">
+                    <button id="btnGuardarProducto" type="submit" class="btn btn-primary mt-4">
                         Guardar producto
+                    </button>
+
+                    <button
+                        type="button"
+                        id="btnCancelarEdicion"
+                        class="btn btn-secondary d-none mt-4"
+                    >
+                        Cancelar edición
                     </button>
 
                     <div id="mensajeCrearProducto" class="mt-3" role="status"></div>

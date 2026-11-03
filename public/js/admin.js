@@ -1,5 +1,6 @@
 const formCrearProducto = document.getElementById("formCrearProducto");
 const mensajeCrearProducto = document.getElementById("mensajeCrearProducto");
+let idProductoEnEdicion = null;
 
 async function cargarCategorias() {
     const selectCategorias = document.getElementById("idCategoria");
@@ -75,13 +76,20 @@ formCrearProducto.addEventListener("submit", async function (event) {
         foto: datosFormulario.get("foto") || null
     };
 
+    const esEdicion = idProductoEnEdicion !== null;
+
+        const metodo = esEdicion ? "PUT" : "POST";
+
+        if (esEdicion) {
+            producto.idProducto = idProductoEnEdicion;
+        }
 
     mensajeCrearProducto.textContent = "Guardando producto..."
 
     try {
 
         const respuesta = await fetch("/api/admin/productos.php", {
-            method: "POST",
+            method: metodo,
             headers: {
                 "Content-Type": "Application/json"
             },
@@ -94,6 +102,10 @@ formCrearProducto.addEventListener("submit", async function (event) {
             throw new Error (datos.error || "No se pudo crear el producto")
         }
 
+        restaurarFormularioProducto();
+
+        await cargarProductosAdmin();
+
         mensajeCrearProducto.textContent = datos.mensaje
 
         formCrearProducto.reset();
@@ -104,6 +116,21 @@ formCrearProducto.addEventListener("submit", async function (event) {
         mensajeCrearProducto.textContent = error.message;
     }  
 });
+
+
+async function obtenerProductoPorId(idProducto) {
+    const respuesta = await fetch(
+        `/api/admin/productos.php?idProducto=${idProducto}`
+    );
+
+    const datos = await respuesta.json();
+
+    if (!respuesta.ok) {
+        throw new Error(datos.error || "No se pudo obtener el producto");
+    }
+
+    return datos;
+}
 
 
 async function cargarProductosAdmin() {
@@ -143,10 +170,18 @@ async function cargarProductosAdmin() {
 
             const celdaAcciones = document.createElement("td");
 
-            celdaAcciones.textContent = "Próximamente";
+            const botonEditar = document.createElement("button");
 
+            botonEditar.type = "button";
+            botonEditar.className = "btn btn-sm btn-outline-primary";
+            botonEditar.textContent = "Editar";
+
+           botonEditar.addEventListener("click", () => {
+                editarProducto(producto.idProducto);
+            });
+
+            celdaAcciones.appendChild(botonEditar);
             fila.appendChild(celdaAcciones);
-
             tablaProductos.appendChild(fila);
         });
 
@@ -159,3 +194,49 @@ async function cargarProductosAdmin() {
 }
 
 cargarProductosAdmin();
+
+async function editarProducto(idProducto) {
+    try {
+        const producto = await obtenerProductoPorId(idProducto);
+
+        document.getElementById("nombre").value = producto.nombre;
+        document.getElementById("codigo").value = producto.codigo;
+        document.getElementById("descripcion").value = producto.descripcion ?? "";
+        document.getElementById("costo").value = producto.costo;
+        document.getElementById("precio").value = producto.precio;
+        document.getElementById("stock").value = producto.stock;
+        document.getElementById("idCategoria").value = producto.idCategoria;
+        document.getElementById("idProveedor").value = producto.idProveedor;
+        document.getElementById("foto").value = producto.foto ?? "";
+
+        idProductoEnEdicion = producto.idProducto;
+
+        document.getElementById("btnGuardarProducto").textContent =
+            "Guardar cambios";
+
+        document.getElementById("btnCancelarEdicion").classList.remove("d-none");
+
+        document.getElementById("formCrearProducto").scrollIntoView({
+            behavior: "smooth"
+        });
+
+    } catch (error) {
+        console.error(error);
+        alert(error.message);
+    }   
+}
+
+document.getElementById("btnCancelarEdicion").addEventListener("click", () => {
+    restaurarFormularioProducto();
+});
+
+function restaurarFormularioProducto() {
+    idProductoEnEdicion = null;
+
+    document.getElementById("formCrearProducto").reset();
+
+    document.getElementById("btnGuardarProducto").textContent =
+        "Crear producto";
+
+    document.getElementById("btnCancelarEdicion").classList.add("d-none");
+}

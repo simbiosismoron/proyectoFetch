@@ -14,6 +14,8 @@ if (session_status() === PHP_SESSION_NONE) {
 <!DOCTYPE html>
 <html lang="es">
 
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,7 +34,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <body>
 
-    <header class="site-header">
+    <header class="site-header xd">
         <div class="container py-3">
 
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">

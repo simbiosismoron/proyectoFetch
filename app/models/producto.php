@@ -23,7 +23,8 @@ class Producto
                     idProveedor,
                     costo,
                     precio,
-                    stock
+                    stock,
+                    activo
                 FROM productos
                 ORDER BY idProducto DESC";
 
@@ -34,7 +35,7 @@ class Producto
 
     public function obtenerTodos(): array
     {
-        $sql = "SELECT foto, nombre, descripcion, precio, stock, idProducto FROM productos";
+        $sql = "SELECT foto, nombre, descripcion, precio, stock, idProducto FROM productos WHERE activo = 1";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
@@ -127,6 +128,20 @@ class Producto
             "foto" => $datos["foto"] ?? null,
             "idProveedor" => $datos["idProveedor"],
             "stock" => $datos["stock"]
+        ]);
+    }
+
+    public function cambiarEstado(int $idProducto, bool $activo): bool
+    {
+        $sql = "UPDATE productos
+                SET activo = :activo
+                WHERE idProducto = :idProducto";
+
+        $stmt = $this->conn->prepare($sql);
+
+        return $stmt->execute([
+            "activo" => (int) $activo,
+            "idProducto" => $idProducto
         ]);
     }
 }

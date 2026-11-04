@@ -1,0 +1,317 @@
+
+:root {
+    --pampa-primary: #233f5d;
+    --pampa-primary-hover: #192f46;
+    --pampa-background: #f5f7fa;
+    --pampa-border: #e5e9ef;
+    --pampa-text: #202d3a;
+    --pampa-muted: #738092;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--pampa-background);
+    color: var(--pampa-text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ENCABEZADO */
+
+.admin-header {
+    background: #fff;
+    border-bottom: 1px solid var(--pampa-border);
+}
+
+.brand {
+    color: var(--pampa-primary);
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    text-decoration: none;
+}
+
+.brand:hover {
+    color: var(--pampa-primary-hover);
+}
+
+.brand-dot {
+    color: #d89b4a;
+}
+
+.admin-badge {
+    background: #edf2f7;
+    color: var(--pampa-primary);
+    padding: 7px 12px;
+    border-radius: 7px;
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+.btn-header {
+    background: #fff;
+    border: 1px solid #d7dfe8;
+    color: var(--pampa-primary);
+    border-radius: 9px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 10px 16px;
+}
+
+.btn-header:hover {
+    background: #edf2f7;
+    border-color: #c4cfda;
+    color: var(--pampa-primary);
+}
+
+/* PRESENTACIÓN */
+
+.page-intro {
+    max-width: 760px;
+}
+
+.section-eyebrow {
+    color: #71869b;
+    font-size: 0.73rem;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+}
+
+.page-title {
+    font-size: clamp(2rem, 4vw, 2.7rem);
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    margin-bottom: 15px;
+}
+
+.page-description {
+    color: var(--pampa-muted);
+    font-size: 0.98rem;
+    line-height: 1.8;
+    margin-bottom: 0;
+}
+
+/* TARJETAS */
+
+.admin-card {
+    background: #fff;
+    border: 1px solid var(--pampa-border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(30, 50, 70, 0.025);
+}
+
+.card-heading {
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--pampa-border);
+}
+
+.card-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--pampa-text);
+}
+
+.card-description {
+    color: var(--pampa-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.card-content {
+    padding: 32px;
+}
+
+/* FORMULARIOS */
+
+.form-label {
+    color: #425267;
+    font-size: 0.86rem;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid #dce3eb;
+    border-radius: 9px;
+    padding: 12px 14px;
+    background-color: #fafbfd;
+    font-size: 0.94rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #fff;
+    border-color: #6b8caa;
+    box-shadow: 0 0 0 3px rgba(35, 63, 93, 0.09);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 105px;
+}
+
+.input-group-text {
+    background: #edf2f7;
+    border-color: #dce3eb;
+    color: #526174;
+    font-weight: 600;
+    border-radius: 9px;
+}
+
+.field-help {
+    color: var(--pampa-muted);
+    font-size: 0.8rem;
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* BOTONES */
+
+.btn-pampa {
+    background: var(--pampa-primary);
+    border: 1px solid var(--pampa-primary);
+    color: #fff;
+    border-radius: 9px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 12px 22px;
+}
+
+.btn-pampa:hover {
+    background: var(--pampa-primary-hover);
+    border-color: var(--pampa-primary-hover);
+    color: #fff;
+}
+
+.btn-outline-secondary {
+    border-radius: 9px;
+    font-weight: 600;
+}
+
+.form-actions .btn-outline-secondary {
+    padding: 12px 22px;
+}
+
+/* TABLA */
+
+.admin-table {
+    width: 100%;
+    margin-bottom: 0;
+    font-size: 0.88rem;
+}
+
+.admin-table thead th {
+    background: #f5f7fa;
+    color: #536579;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--pampa-border);
+    padding: 16px;
+    white-space: nowrap;
+}
+
+.admin-table tbody td {
+    padding: 16px;
+    color: #36475a;
+    border-bottom: 1px solid #eef1f5;
+    vertical-align: middle;
+}
+
+.admin-table tbody tr:hover td {
+    background: #fafbfd;
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.admin-table .btn {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 7px 11px;
+    border-radius: 7px;
+    white-space: nowrap;
+}
+
+.admin-table .btn + .btn {
+    margin-left: 6px;
+}
+
+/* FILAS INACTIVAS */
+
+.admin-table tbody tr.table-secondary td {
+    background: #f0f2f5;
+    color: #7c8794;
+}
+
+/* PIE DE PÁGINA */
+
+main {
+    flex: 1;
+}
+
+.admin-footer {
+    background: #fff;
+    border-top: 1px solid var(--pampa-border);
+    margin-top: 45px;
+}
+
+.footer-brand {
+    color: var(--pampa-primary);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+}
+
+.admin-footer p {
+    color: var(--pampa-muted);
+    font-size: 0.8rem;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+    .card-heading {
+        padding: 24px 20px;
+    }
+
+    .card-content {
+        padding: 20px;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .admin-table {
+        min-width: 680px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-badge {
+        font-size: 0.68rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+}

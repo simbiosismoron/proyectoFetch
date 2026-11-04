@@ -150,6 +150,11 @@ async function cargarProductosAdmin() {
 
         productos.forEach(producto => {
             const fila = document.createElement("tr");
+            console.log(producto.activo)
+
+            if (Number(producto.activo) === 0) {
+                fila.classList.add("table-secondary");
+            }
 
             const campos = [
                 "idProducto",
@@ -173,8 +178,28 @@ async function cargarProductosAdmin() {
             const botonEditar = document.createElement("button");
 
             botonEditar.type = "button";
-            botonEditar.className = "btn btn-sm btn-outline-primary";
+            botonEditar.className = "btn btn-sm m-1 btn-outline-primary";
             botonEditar.textContent = "Editar";
+
+            const botonEstado = document.createElement("button");
+
+            const estaActivo = Number(producto.activo) === 1;
+
+            botonEstado.type = "button";
+
+            botonEstado.className = estaActivo
+                ? "btn btn-sm btn-outline-danger"
+                : "btn btn-sm btn-outline-success";
+
+            botonEstado.textContent = estaActivo
+                ? "Desactivar"
+                : "Reactivar";
+
+            botonEstado.addEventListener("click", async () => {
+                await cambiarEstadoProducto(producto.idProducto, !estaActivo);
+            });
+
+            celdaAcciones.appendChild(botonEstado);
 
            botonEditar.addEventListener("click", () => {
                 editarProducto(producto.idProducto);
@@ -194,6 +219,46 @@ async function cargarProductosAdmin() {
 }
 
 cargarProductosAdmin();
+
+
+async function cambiarEstadoProducto(idProducto, nuevoEstado) {
+    const accion = nuevoEstado ? "reactivar" : "desactivar";
+
+    const confirmado = confirm(
+        `¿Estás seguro de que querés ${accion} este producto?`
+    );
+
+    if (!confirmado) {
+        return;
+    }
+
+    try {
+        const respuesta = await fetch("/api/admin/productos.php", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idProducto: Number(idProducto),
+                activo: nuevoEstado
+            })
+        });
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(
+                datos.error || "No se pudo cambiar el estado del producto"
+            );
+        }
+
+        await cargarProductosAdmin();
+
+    } catch (error) {
+        console.error(error);
+        alert(error.message);
+    }
+}
 
 async function editarProducto(idProducto) {
     try {

@@ -104,7 +104,7 @@ function mostrarProductos(productos) {
 
         productoElemento.style.setProperty(
             "--imagen-producto",
-            `url("img/productos/${imagen}")`
+            `url("/img/productos/${imagen}")`
         );
 
         productoElemento.innerHTML = `

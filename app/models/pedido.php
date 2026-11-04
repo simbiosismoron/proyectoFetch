@@ -103,6 +103,7 @@ class pedido
                 $idsProcesados[] = $idProducto;
 
                 $sql = "SELECT * FROM productos WHERE idProducto = :idProducto FOR UPDATE";
+                
                 $stmt = $this->conn->prepare($sql);
                 $stmt->execute([
                     'idProducto' => $idProducto
@@ -111,6 +112,12 @@ class pedido
                 $productobd = $stmt->fetch();
                 if (!$productobd) {
                     throw new ProductoNoEncontradoException("Producto no encontrado: " . $idProducto);
+                }
+
+                if ((int) $productobd["activo"] !== 1) {
+                    throw new InvalidArgumentException(
+                        "El producto no está disponible para la venta: " . $idProducto
+                    );
                 }
 
                 $cantidad = filter_var(

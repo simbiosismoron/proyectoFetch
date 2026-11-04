@@ -1,176 +1,270 @@
+
 <?php
 
 require_once __DIR__ . "/../config/database.php";
+
 $database = new Database();
 $conn = $database->getConnection();
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 ?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 
 <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <title>Pampa | Distribuidora</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/styles/index.css">
 </head>
 
 <body>
-    <header class="d-flex justify-content-between bg-light align-items-center">
-        <h1 class="display-4 text-primary">Pampa</h1>
-        <nav>
-            <ul class="nav nav-pills">
-                <button id="btnVerMisPedidos" class="btn btn-outline-primary">
-                    Mis pedidos
-                </button>
-                <button id="btnVerCarrito" class="btn btn-outline-primary ms-3">
-                    Carrito
-                </button>
-                <li class="nav-item"><a class="nav-link text-decoration-none text-secondary fs-5" href="#">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link text-decoration-none text-secondary fs-5" href="#">Acerca de</a></li>
-                <li class="nav-item"><a class="nav-link text-decoration-none text-secondary fs-5" href="#">Contacto</a></li>
-            </ul>
-        </nav>
+
+    <header class="site-header">
+        <div class="container py-3">
+
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+
+                <a href="/" class="brand">
+                    pampa<span class="brand-dot">.</span>
+                </a>
+
+                <nav class="header-actions" aria-label="Navegación principal">
+
+                    <a href="/" class="nav-link-custom me-2">
+                        Inicio
+                    </a>
+
+                    <?php if (($_SESSION["rol"] ?? null) === "admin"): ?>
+                        <a href="/admin/index.php" class="nav-link-custom me-2">
+                            Administración
+                        </a>
+                    <?php endif; ?>
+
+                    <button
+                        type="button"
+                        id="btnVerMisPedidos"
+                        class="btn btn-pampa-outline">
+                        Mis pedidos
+                    </button>
+
+                    <button
+                        type="button"
+                        id="btnVerCarrito"
+                        class="btn btn-pampa">
+                        Mi carrito
+                    </button>
+
+                </nav>
+
+            </div>
+
+        </div>
     </header>
 
     <?php if ($conn): ?>
 
-        <main class="container my-5 bg-light p-4 rounded">
-            <p id="estadoSesion" class="text-dark fs-5"></p>
-            <div class="about-us my-5">
-                <h2 class="text-primary">Acerca de Nosotros</h2>
-                <p class="text-dark fs-5">Bienvenido a Pampa. Somos una empresa dedicada a brindar soluciones innovadoras y de alta calidad a nuestros clientes.</p>
-            </div>
-            <div class="products my-5">
+        <main class="container py-4 py-lg-5">
 
-                <section id="vistaCatalogo">
+            <div id="estadoSesion" class="mb-4"></div>
 
-                    <h2 class="text-primary">Productos</h2>
+            <section class="hero mb-5" aria-labelledby="tituloPrincipal">
 
-                        <div class="mb-4">
-                            <label for="buscadorProductos" class="form-label">
-                                Buscar productos
-                            </label>
+                <div class="hero-eyebrow">
+                    Distribuidora Pampa
+                </div>
 
-                            <input
-                                type="search"
-                                id="buscadorProductos"
-                                class="form-control"
-                                placeholder="Buscar por nombre..."
-                                autocomplete="off"
-                            >
-                        </div>
+                <h1 id="tituloPrincipal" class="hero-title">
+                    Insumos y equipamiento para tu producción
+                </h1>
 
-                    <p class="text-dark fs-5">
-                        Explora nuestra gama de productos.
-                    </p>
+                <p class="hero-description">
+                    Encontrá condimentos, tripas, integrales, maquinaria
+                    y repuestos para tu negocio. Calidad y soluciones
+                    para acompañar tu producción.
+                </p>
 
-                    <div id="contenedorProductos" class="row g-5">
+            </section>
+
+            <section id="vistaCatalogo">
+
+                <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+
+                    <div>
+                        <h2 class="section-title mb-2">
+                            Nuestro catálogo
+                        </h2>
+
+                        <p class="section-description mb-0">
+                            Explorá nuestros productos y encontrá lo que necesitás.
+                        </p>
                     </div>
 
-                </section>
+                </div>
 
+                <div class="content-panel mb-4">
 
-                <section id="vistaCarrito" class="d-none">
+                    <label for="buscadorProductos" class="search-label">
+                        Buscar productos
+                    </label>
 
-                    <button id="btnVolverCatalogo" class="btn btn-secondary mb-4">
-                        Volver al catálogo
-                    </button>
+                    <input
+                        type="search"
+                        id="buscadorProductos"
+                        class="form-control search-input"
+                        placeholder="Buscar por nombre..."
+                        autocomplete="off">
 
-                    <h2 class="mb-4">Mi carrito</h2>
+                </div>
 
-                    <div class="row g-4">
+                <div id="contenedorProductos" class="row g-4"></div>
 
-                        <!-- Productos: 8 columnas -->
-                        <div class="col-12 col-lg-8">
+            </section>
 
-                            <h3>Productos</h3>
+            <section id="vistaCarrito" class="d-none">
+
+                <button
+                    type="button"
+                    id="btnVolverCatalogo"
+                    class="btn btn-pampa-outline back-button mb-4">
+                    ← Volver al catálogo
+                </button>
+
+                <h2 class="section-title mb-2">
+                    Mi carrito
+                </h2>
+
+                <p class="section-description mb-4">
+                    Revisá los productos seleccionados antes de confirmar tu pedido.
+                </p>
+
+                <div class="row g-4">
+
+                    <div class="col-12 col-lg-8">
+
+                        <div class="content-panel h-100">
+
+                            <h3 class="fs-5 fw-bold mb-4">
+                                Productos seleccionados
+                            </h3>
 
                             <div id="carrito" class="row g-3"></div>
 
-                            <button id="vaciarCarrito"
-                                class="btn btn-outline-danger mt-3">
+                            <button
+                                type="button"
+                                id="vaciarCarrito"
+                                class="btn btn-outline-danger mt-4">
                                 Vaciar carrito
                             </button>
 
                         </div>
 
-                        <!-- Resumen: 4 columnas -->
-                        <div class="col-12 col-lg-4">
+                    </div>
 
-                            <div id="resumenPedido" class="border rounded p-4">
+                    <div class="col-12 col-lg-4">
 
-                                <h3>Resumen del pedido</h3>
+                        <div id="resumenPedido"class="order-summary">
 
-                                <div id="resumenCarrito"></div>
+                            <h3>Resumen del pedido</h3>
 
-                                <button id="btnConfirmarPedido"
-                                    class="btn btn-primary w-100 mt-3">
-                                    Confirmar pedido
-                                </button>
+                            <div id="resumenCarrito"></div>
 
-                            </div>
-
-
-                            <div id="mensajeCheckout" class="mt-3"></div>
+                            <button
+                                type="button"
+                                id="btnConfirmarPedido"
+                                class="btn btn-pampa w-100 mt-4">
+                                Confirmar pedido
+                            </button>
 
                         </div>
 
+                        <div id="mensajeCheckout" class="mt-3"></div>
+
                     </div>
 
-                </section>
+                </div>
 
-                <section id="vistaMisPedidos" class="d-none">
+            </section>
 
-                    <button id="btnVolverDesdePedidos" class="btn btn-secondary mb-4">
-                        Volver al catálogo
-                    </button>
+            <section id="vistaMisPedidos" class="d-none">
 
-                    <h2 class="mb-4">Mis pedidos</h2>
+                <button
+                    type="button"
+                    id="btnVolverDesdePedidos"
+                    class="btn btn-pampa-outline back-button mb-4">
+                    ← Volver al catálogo
+                </button>
+
+                <h2 class="section-title mb-2">
+                    Mis pedidos
+                </h2>
+
+                <p class="section-description mb-4">
+                    Consultá el historial de tus compras.
+                </p>
+
+                <div class="content-panel">
 
                     <div id="mensajeMisPedidos"></div>
 
-                    <div id="contenedorMisPedidos" class="row g-3">
-                    </div>
+                    <div id="contenedorMisPedidos" class="row g-3"></div>
 
-                </section>
+                </div>
 
+            </section>
 
-
-                <footer class="bg-light text-center py-4">
-                    <p class="text-secondary mb-0">&copy; 2026 Pampa. Todos los derechos reservados.</p>
-                </footer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <?php else: ?>
-                <h2>Conexión a la base de datos fallida</h2>
-                <p>Por favor, verifica la configuración de la base de datos.</p>
-            <?php endif; ?>
-
-
-
-            <script src="js/mis-pedidos.js"></script>
-            <script src="js/productos.js"></script>
-            <script src="js/pedidos.js"></script>
         </main>
-</body>
 
+    <?php else: ?>
+
+        <main class="container py-5">
+
+            <div class="alert alert-danger">
+                <h2 class="h5 fw-bold">
+                    Error de conexión
+                </h2>
+
+                <p class="mb-0">
+                    No fue posible conectar con la base de datos.
+                    Verificá la configuración del servidor.
+                </p>
+            </div>
+
+        </main>
+
+    <?php endif; ?>
+
+    <footer class="site-footer py-4">
+
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+
+            <span class="footer-brand">
+                pampa.
+            </span>
+
+            <p class="text-secondary small mb-0">
+                &copy; 2026 Pampa. Todos los derechos reservados.
+            </p>
+
+        </div>
+
+    </footer>
+
+    <script src="/js/mis-pedidos.js"></script>
+    <script src="/js/productos.js"></script>
+    <script src="/js/pedidos.js"></script>
+
+</body>
 </html>

@@ -10,8 +10,8 @@ require_once __DIR__ . "/../../../app/validators/productoValidator.php";
 
 $metodo = $_SERVER["REQUEST_METHOD"];
 
-if (!in_array($metodo, ["GET", "POST", "PUT"], true)) {
-    header("Allow: GET, POST, PUT");
+if (!in_array($metodo, ["GET", "POST", "PUT", "PATCH"], true)) {
+    header("Allow: GET, POST, PUT, PATCH");
     
     http_response_code(405);
 
@@ -25,6 +25,67 @@ if (!in_array($metodo, ["GET", "POST", "PUT"], true)) {
 
 try {
     exigirAdmin();
+
+    if ($metodo === "PATCH") {
+        $datos = json_decode(
+            file_get_contents("php://input"),
+            true
+        );
+
+        if (!is_array($datos) || array_is_list($datos)) {
+            throw new InvalidArgumentException(
+                "Se esperaba un objeto JSON válido"
+            );
+        }
+
+        if (
+            !isset($datos["idProducto"]) ||
+            !is_int($datos["idProducto"]) ||
+            $datos["idProducto"] <= 0
+        ) {
+            throw new InvalidArgumentException(
+                "El identificador del producto no es válido"
+            );
+        }
+
+        if (
+            !array_key_exists("activo", $datos) ||
+            !is_bool($datos["activo"])
+        ) {
+            throw new InvalidArgumentException(
+                "El estado activo debe ser booleano"
+            );
+        }
+
+        $producto = new Producto();
+
+        $productoExistente = $producto->obtenerPorId(
+            $datos["idProducto"]
+        );
+
+        if ($productoExistente === null) {
+            http_response_code(404);
+
+            echo json_encode([
+                "ok" => false,
+                "error" => "El producto no existe"
+            ]);
+
+            exit;
+        }
+
+        $producto->cambiarEstado(
+            $datos["idProducto"],
+            $datos["activo"]
+        );
+
+        echo json_encode([
+            "ok" => true,
+            "mensaje" => "Estado del producto actualizado correctamente"
+        ]);
+
+        exit;
+    }
 
     if ($metodo === "GET") {
         $producto = new Producto();

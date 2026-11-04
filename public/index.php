@@ -34,7 +34,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <body>
 
-    <header class="site-header xd">
+    <header class="site-header xdd">
         <div class="container py-3">
 
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">

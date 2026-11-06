@@ -138,7 +138,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 </div>
 
-                <div id="contenedorProductos" class="row g-4"></div>
+                <div id="contenedorProductos" class="inventario-lista" aria-label="Listado de productos"></div>
 
             </section>
 

@@ -159,6 +159,8 @@ if (session_status() === PHP_SESSION_NONE) {
                     Revisá los productos seleccionados antes de confirmar tu pedido.
                 </p>
 
+                <div id="mensajeCheckout" class="mb-3" aria-live="polite"></div>
+
                 <div id="filaCarrito" class="row g-4">
 
                     <div id="columnaProductosCarrito" class="col-12 col-lg-8">
@@ -199,7 +201,6 @@ if (session_status() === PHP_SESSION_NONE) {
 
                         </div>
 
-                        <div id="mensajeCheckout" class="mt-3"></div>
 
                     </div>
 

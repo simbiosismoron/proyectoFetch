@@ -391,6 +391,8 @@ exigirAdmin(false);
                                 <th>ID</th>
                                 <th>Código</th>
                                 <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Proveedor</th>
                                 <th>Costo</th>
                                 <th>Precio</th>
                                 <th>Stock</th>

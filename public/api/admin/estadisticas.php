@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
     exit;
 }
 
-exigirAdmin(false);
+exigirAdmin(true);
 
 try {
     $estadistica = new Estadistica();

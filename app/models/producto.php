@@ -16,17 +16,21 @@ class Producto
     public function obtenerTodosAdmin(): array
     {   
         $sql = "SELECT
-                    idProducto,
-                    codigo,
-                    nombre,
-                    idCategoria,
-                    idProveedor,
-                    costo,
-                    precio,
-                    stock,
-                    activo
-                FROM productos
-                ORDER BY idProducto DESC";
+                    p.idProducto,
+                    p.codigo,
+                    p.nombre,
+                    p.idCategoria,
+                    p.idProveedor,
+                    c.nombre AS categoriaNombre,
+                    pr.nombre AS proveedorNombre,
+                    p.costo,
+                    p.precio,
+                    p.stock,
+                    p.activo
+                FROM productos AS p
+                LEFT JOIN categorias AS c ON c.idCategoria = p.idCategoria
+                LEFT JOIN proveedores AS pr ON pr.idProveedor = p.idProveedor
+                ORDER BY p.idProducto DESC";
 
         $stmt = $this->conn->query($sql);
 
@@ -35,7 +39,7 @@ class Producto
 
     public function obtenerTodos(): array
     {
-        $sql = "SELECT foto, nombre, descripcion, precio, stock, idProducto FROM productos WHERE activo = 1";
+        $sql = "SELECT foto, nombre, descripcion, precio, stock, idProducto, idCategoria FROM productos WHERE activo = 1";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();

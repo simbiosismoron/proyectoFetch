@@ -155,6 +155,8 @@ async function cargarProductosAdmin() {
                 "idProducto",
                 "codigo",
                 "nombre",
+                "categoriaNombre",
+                "proveedorNombre",
                 "costo",
                 "precio",
                 "stock"
@@ -163,7 +165,7 @@ async function cargarProductosAdmin() {
             campos.forEach(campo => {
                 const celda = document.createElement("td");
 
-                celda.textContent = producto[campo];
+                celda.textContent = producto[campo] ?? 'Sin asignar';
 
                 fila.appendChild(celda);
             });

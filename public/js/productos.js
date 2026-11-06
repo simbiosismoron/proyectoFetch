@@ -313,6 +313,11 @@ function mostrarCarrito() {
     contenedorCarrito.innerHTML = "";
 
     const carritoVacio = carrito.length === 0;
+    const filaCarrito = document.getElementById("filaCarrito");
+    const columnaResumen = document.getElementById("columnaResumenCarrito");
+
+    filaCarrito.classList.toggle("justify-content-center", carritoVacio);
+    columnaResumen.classList.toggle("d-none", carritoVacio);
     columnaProductos.classList.toggle("mx-auto", carritoVacio);
     botonVaciar.classList.toggle("d-none", carritoVacio);
 

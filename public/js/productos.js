@@ -20,7 +20,7 @@ async function obtenerProductos() {
 
         todosLosProductos = productos;
 
-        mostrarProductos(productos);
+        filtrarProductos();
 
 
     } catch (error) {
@@ -32,18 +32,47 @@ async function obtenerProductos() {
 
 
 const buscadorProductos = document.getElementById("buscadorProductos");
+const filtroCategoria = document.getElementById("filtroCategoria");
+
 buscadorProductos.addEventListener("input", filtrarProductos);
+filtroCategoria.addEventListener("change", filtrarProductos);
 
+async function cargarCategoriasCatalogo() {
+    try {
+        const respuesta = await fetch("/api/categorias.php");
 
+        if (!respuesta.ok) {
+            throw new Error("No se pudieron obtener las categorías");
+        }
+
+        const categorias = await respuesta.json();
+
+        categorias.forEach(categoria => {
+            const opcion = document.createElement("option");
+            opcion.value = categoria.idCategoria;
+            opcion.textContent = categoria.nombre;
+            filtroCategoria.appendChild(opcion);
+        });
+    } catch (error) {
+        console.error("Error al cargar categorías:", error);
+    }
+}
+
+cargarCategoriasCatalogo();
 
 function filtrarProductos() {
     const busqueda = buscadorProductos.value.trim().toLowerCase();
+    const categoriaSeleccionada = filtroCategoria.value;
 
-    const productosFiltrados = todosLosProductos.filter(producto =>
-        producto.nombre.toLowerCase().includes(busqueda)
-    );
+    const productosFiltrados = todosLosProductos.filter(producto => {
+        const coincideNombre = producto.nombre.toLowerCase().includes(busqueda);
+        const coincideCategoria = categoriaSeleccionada === "" ||
+            String(producto.idCategoria) === categoriaSeleccionada;
 
-    mostrarProductos(productosFiltrados); 
+        return coincideNombre && coincideCategoria;
+    });
+
+    mostrarProductos(productosFiltrados);
 }
 
 

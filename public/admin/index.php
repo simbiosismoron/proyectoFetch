@@ -84,6 +84,66 @@ exigirAdmin(false);
         <section class="admin-card mb-4">
 
             <div class="card-heading">
+                <div>
+                    <p class="section-eyebrow mb-2">
+                        ESTADÍSTICAS
+                    </p>
+
+                    <h2 class="card-title mb-2">
+                        Resumen de ventas
+                    </h2>
+
+                    <p class="card-description mb-0">
+                        Indicadores generales de los pedidos registrados.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card-content">
+
+                <div class="row g-3">
+
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="border rounded-3 p-4 h-100">
+                            <p class="text-muted mb-2">Pedidos registrados</p>
+                            <h3 id="cantidadPedidos" class="fw-bold mb-0">—</h3>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="border rounded-3 p-4 h-100">
+                            <p class="text-muted mb-2">Importe de pedidos</p>
+                            <h3 id="importePedidos" class="fw-bold mb-0">—</h3>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="border rounded-3 p-4 h-100">
+                            <p class="text-muted mb-2">Cantidad vendida</p>
+                            <h3 id="unidadesVendidas" class="fw-bold mb-0">—</h3>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="border rounded-3 p-4 h-100">
+                            <p class="text-muted mb-2">Ticket promedio</p>
+                            <h3 id="ticketPromedio" class="fw-bold mb-0">—</h3>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p id="mensajeEstadisticas"
+                class="text-muted mt-3 mb-0"
+                role="status"></p>
+
+            </div>
+
+        </section>
+
+        <section class="admin-card mb-4">
+
+            <div class="card-heading">
 
                 <div>
                     <p class="section-eyebrow mb-2">

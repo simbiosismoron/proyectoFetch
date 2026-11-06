@@ -117,7 +117,7 @@ function mostrarProductos(productos) {
             </p>
 
             <p class="text-white fs-5">
-                Precio: $${producto.precio} / ${producto.unidadMedida}
+                Precio: $${producto.precio}
             </p>
 
             ${botonProducto}

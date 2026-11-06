@@ -108,10 +108,6 @@ formCrearProducto.addEventListener("submit", async function (event) {
 
         mensajeCrearProducto.textContent = datos.mensaje
 
-        formCrearProducto.reset();
-
-        await cargarProductosAdmin();
-
     } catch(error){
         mensajeCrearProducto.textContent = error.message;
     }  
@@ -150,7 +146,6 @@ async function cargarProductosAdmin() {
 
         productos.forEach(producto => {
             const fila = document.createElement("tr");
-            console.log(producto.activo)
 
             if (Number(producto.activo) === 0) {
                 fila.classList.add("table-secondary");
@@ -305,3 +300,46 @@ function restaurarFormularioProducto() {
 
     document.getElementById("btnCancelarEdicion").classList.add("d-none");
 }
+
+async function cargarEstadisticas() {
+    const mensaje = document.getElementById("mensajeEstadisticas");
+
+    try {
+        const respuesta = await fetch("/api/admin/estadisticas.php");
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(
+                datos.error || "No se pudieron obtener las estadísticas"
+            );
+        }
+
+        const estadisticas = datos.estadisticas;
+
+        const formatoMoneda = new Intl.NumberFormat("es-AR", {
+            style: "currency",
+            currency: "ARS"
+        });
+
+        document.getElementById("cantidadPedidos").textContent =
+            estadisticas.cantidadPedidos;
+
+        document.getElementById("importePedidos").textContent =
+            formatoMoneda.format(estadisticas.importePedidos);
+
+        document.getElementById("unidadesVendidas").textContent =
+            estadisticas.unidadesVendidas;
+
+        document.getElementById("ticketPromedio").textContent =
+            formatoMoneda.format(estadisticas.ticketPromedio);
+
+        mensaje.textContent = "";
+
+    } catch (error) {
+        console.error(error);
+        mensaje.textContent = error.message;
+    }
+}
+
+cargarEstadisticas();

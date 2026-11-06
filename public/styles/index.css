@@ -3,35 +3,7 @@
 }
 
 
-.producto {
-
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
-    margin-bottom: 15px;
-    min-height: 300px;
-    padding: 25px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    background-image:
-        linear-gradient(
-            rgba(0, 0, 0, 0.25),
-            rgba(0, 0, 0, 0.9)
-        ),
-        var(--imagen-producto);
-
-    background-size: cover;
-    background-position: center;
-
-    border-radius: 12px;
-    overflow: hidden;
-}
-
- 
- 
- :root {
+:root {
             --pampa-primary: #233f5d;
             --pampa-primary-hover: #192f46;
             --pampa-background: #f5f7fa;
@@ -252,3 +224,70 @@
                 flex: 1;
             }
         }
+/* Catálogo comercial: filas compactas con detalles desplegables */
+.inventario-lista {
+    background: #fff;
+    border: 1px solid var(--pampa-border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.inventario-cabecera,
+.inventario-fila {
+    display: grid;
+    grid-template-columns: minmax(0, 2.5fr) minmax(110px, 1fr) minmax(115px, 1fr) minmax(115px, .8fr);
+    align-items: center;
+    gap: 16px;
+    padding: 15px 20px;
+}
+.inventario-cabecera {
+    background: #f0f3f7;
+    color: #526174;
+    font-size: .78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+.inventario-item + .inventario-item { border-top: 1px solid var(--pampa-border); }
+.inventario-fila { cursor: pointer; list-style: none; }
+.inventario-fila::-webkit-details-marker { display: none; }
+.inventario-fila:hover { background: #f8fafc; }
+.inventario-fila:focus-visible { outline: 3px solid #6b8caa; outline-offset: -3px; }
+.inventario-nombre { display: flex; flex-direction: column; min-width: 0; gap: 4px; }
+.inventario-nombre strong { overflow-wrap: anywhere; }
+.inventario-nombre small { color: var(--pampa-muted); font-size: .76rem; }
+.inventario-chevron { display: inline-block; transition: transform .15s ease; }
+.inventario-item[open] .inventario-chevron { transform: rotate(180deg); }
+.inventario-precio { font-weight: 700; font-variant-numeric: tabular-nums; }
+.stock-disponible { color: #21714c; font-weight: 600; }
+.stock-agotado { color: #8b3540; font-weight: 600; }
+.inventario-accion { justify-self: end; }
+.inventario-accion .btn { white-space: nowrap; }
+.inventario-detalles {
+    padding: 16px 20px 20px;
+    border-top: 1px solid var(--pampa-border);
+    background: #f8fafc;
+    font-size: .9rem;
+}
+.inventario-detalles p { margin: 6px 0 10px; color: #526174; white-space: pre-wrap; }
+.inventario-detalles small { color: var(--pampa-muted); }
+.catalogo-sin-resultados { margin: 0; padding: 24px; color: var(--pampa-muted); }
+
+@media (max-width: 767.98px) {
+    .inventario-cabecera { display: none; }
+    .inventario-fila {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        padding: 16px;
+    }
+    .inventario-nombre { grid-column: 1 / -1; }
+    .inventario-precio, .inventario-stock { display: flex; flex-direction: column; gap: 3px; }
+    .inventario-precio::before, .inventario-stock::before {
+        content: attr(data-etiqueta);
+        font-size: .72rem;
+        color: var(--pampa-muted);
+        font-weight: 400;
+    }
+    .inventario-accion { grid-column: 1 / -1; justify-self: stretch; }
+    .inventario-accion .btn { width: 100%; }
+    .inventario-detalles { padding: 14px 16px; }
+}

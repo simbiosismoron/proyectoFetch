@@ -304,16 +304,17 @@ function mostrarResumen() {
 
 const columnaProductos = document.getElementById("columnaProductosCarrito");
 
-columnaProductos.classList.toggle(
-    "mx-auto",
-    carrito.length === 0
-);
+const botonVaciar = document.getElementById("vaciarCarrito");
 
 function mostrarCarrito() {
 
     const contenedorCarrito = document.getElementById("carrito");
 
     contenedorCarrito.innerHTML = "";
+
+    const carritoVacio = carrito.length === 0;
+    columnaProductos.classList.toggle("mx-auto", carritoVacio);
+    botonVaciar.classList.toggle("d-none", carritoVacio);
 
     mostrarResumen();
 
@@ -484,8 +485,6 @@ function mostrarCarrito() {
 // ==========================================
 // 10. VACIAR CARRITO
 // ==========================================
-
-const botonVaciar = document.getElementById("vaciarCarrito");
 
 botonVaciar.addEventListener("click", () => {
 

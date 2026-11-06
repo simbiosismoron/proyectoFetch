@@ -107,5 +107,7 @@ function validarDatosProducto(array $datos): array
                 $foto = null;
             }
         }
+    $datos["foto"] = $foto;
+
     return $datos;
 }

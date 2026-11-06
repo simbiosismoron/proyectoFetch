@@ -77,6 +77,17 @@ function filtrarProductos() {
 
 
 
+// Escapa datos externos antes de interpolarlos en plantillas HTML.
+function escaparHTML(valor) {
+    return String(valor ?? "").replace(/[&<>"']/g, caracter => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[caracter]);
+}
+
 function mostrarProductos(productos) {
 
     const contenedor = document.getElementById("contenedorProductos");
@@ -89,7 +100,7 @@ function mostrarProductos(productos) {
             ? `
                 <button
                     class="btn btn-primary btn-agregar"
-                    data-id="${producto.idProducto}">
+                    data-id="${escaparHTML(producto.idProducto)}">
                     Agregar al carrito
                 </button>
             `
@@ -121,20 +132,20 @@ function mostrarProductos(productos) {
 
         productoElemento.style.setProperty(
             "--imagen-producto",
-            `url("/img/productos/${imagen}")`
+            `url("/img/productos/${encodeURIComponent(imagen)}")`
         );
 
         productoElemento.innerHTML = `
             <h3 class="text-white">
-                ${producto.nombre}
+                ${escaparHTML(producto.nombre)}
             </h3>
 
             <p class="text-white fs-5">
-                ${producto.descripcion}
+                ${escaparHTML(producto.descripcion)}
             </p>
 
             <p class="text-white fs-5">
-                Precio: $${producto.precio}
+                Precio: $${escaparHTML(producto.precio)}
             </p>
 
             ${botonProducto}
@@ -359,19 +370,19 @@ function mostrarCarrito() {
                     <div class="flex-grow-1">
 
                         <h5 class="fw-semibold mb-2">
-                            ${producto.nombre}
+                            ${escaparHTML(producto.nombre)}
                         </h5>
 
                         <p class="text-secondary small mb-2">
-                            ${producto.descripcion}
+                            ${escaparHTML(producto.descripcion)}
                         </p>
 
                         <p class="text-secondary small mb-1">
-                            Disponible: ${producto.stock} ${producto.unidadMedida}
+                            Disponible: ${escaparHTML(producto.stock)} ${escaparHTML(producto.unidadMedida)}
                         </p>
 
                         <p class="mb-0">
-                            $${producto.precio} / ${producto.unidadMedida}
+                            $${escaparHTML(producto.precio)} / ${escaparHTML(producto.unidadMedida)}
                         </p>
 
                     </div>
@@ -383,17 +394,17 @@ function mostrarCarrito() {
 
                             <button
                                 class="btn btn-outline-secondary btn-restar"
-                                data-id="${producto.idProducto}">
+                                data-id="${escaparHTML(producto.idProducto)}">
                                 −
                             </button>
 
                             <span class="text-nowrap">
-                                ${producto.cantidad} ${producto.unidadMedida}
+                                ${escaparHTML(producto.cantidad)} ${escaparHTML(producto.unidadMedida)}
                             </span>
 
                             <button
                                 class="btn btn-outline-secondary btn-aumentar"
-                                data-id="${producto.idProducto}">
+                                data-id="${escaparHTML(producto.idProducto)}">
                                 +
                             </button>
 
@@ -403,7 +414,7 @@ function mostrarCarrito() {
                             $${subtotal.toFixed(2)}
                         </strong>
 
-                        <button class="btn btn-outline-danger btn-eliminar" data-id="${producto.idProducto}">
+                        <button class="btn btn-outline-danger btn-eliminar" data-id="${escaparHTML(producto.idProducto)}">
                             Eliminar
                         </button>
 

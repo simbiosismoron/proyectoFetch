@@ -1,7 +1,3 @@
-// ==========================================
-// 1. ESTADO DEL CARRITO
-// ==========================================
-
 const carritoGuardado = localStorage.getItem("carrito");
 
 let carrito = carritoGuardado
@@ -11,11 +7,6 @@ let carrito = carritoGuardado
 
 let todosLosProductos = [];
 
-
-
-// ==========================================
-// 2. OBTENER PRODUCTOS DESDE LA API
-// ==========================================
 
 async function obtenerProductos() {
     try {
@@ -38,12 +29,12 @@ async function obtenerProductos() {
 }
 
 
-//  Buscador de productos
+
 
 const buscadorProductos = document.getElementById("buscadorProductos");
 buscadorProductos.addEventListener("input", filtrarProductos);
 
-// Función filtrado de productos por nombre
+
 
 function filtrarProductos() {
     const busqueda = buscadorProductos.value.trim().toLowerCase();
@@ -56,9 +47,6 @@ function filtrarProductos() {
 }
 
 
-// ==========================================
-// 3. MOSTRAR PRODUCTOS EN EL CATÁLOGO
-// ==========================================
 
 function mostrarProductos(productos) {
 
@@ -126,7 +114,6 @@ function mostrarProductos(productos) {
         columna.appendChild(productoElemento);
         contenedor.appendChild(columna);
 
-        // Evento del botón Agregar al carrito
         const botonAgregar = productoElemento.querySelector(".btn-agregar");
 
         if (botonAgregar) {
@@ -174,11 +161,6 @@ function mostrarProductos(productos) {
 
 }
 
-
-// ==========================================
-// 4. GUARDAR CARRITO EN LOCALSTORAGE
-// ==========================================
-
 function guardarJSON() {
 
     const carritoJSON = JSON.stringify(carrito);
@@ -187,10 +169,6 @@ function guardarJSON() {
 
 }
 
-
-// ==========================================
-// 5. AUMENTAR CANTIDAD
-// ==========================================
 
 function aumentarCantidad(idProducto) {
 
@@ -219,10 +197,6 @@ function aumentarCantidad(idProducto) {
 
 }
 
-
-// ==========================================
-// 6. DISMINUIR CANTIDAD
-// ==========================================
 
 function disminuirCantidad(idProducto) {
 
@@ -253,11 +227,6 @@ function disminuirCantidad(idProducto) {
 
 }
 
-
-// ==========================================
-// 7. CALCULAR TOTAL
-// ==========================================
-
 function calcularTotal() {
 
     return carrito.reduce((total, producto) => {
@@ -267,11 +236,6 @@ function calcularTotal() {
     }, 0);
 
 }
-
-
-// ==========================================
-// 8. MOSTRAR RESUMEN DEL PEDIDO
-// ==========================================
 
 function mostrarResumen() {
 
@@ -298,10 +262,12 @@ function mostrarResumen() {
 
 }
 
+const columnaProductos = document.getElementById("columnaProductosCarrito");
 
-// ==========================================
-// 9. MOSTRAR CARRITO
-// ==========================================
+columnaProductos.classList.toggle(
+    "mx-auto",
+    carrito.length === 0
+);
 
 function mostrarCarrito() {
 
@@ -311,21 +277,22 @@ function mostrarCarrito() {
 
     mostrarResumen();
 
-    // Carrito vacío
     if (carrito.length === 0) {
 
         contenedorCarrito.innerHTML = `
-            <div class="col-12 text-center py-5">
-                <h3>Tu carrito está vacío</h3>
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <div class="col-12 text-center py-5">
+                    <h3>Tu carrito está vacío</h3>
 
-                <p class="text-secondary">
-                    Todavía no agregaste productos.
-                </p>
+                    <p class="text-secondary">
+                        Todavía no agregaste productos.
+                    </p>
 
-                <button id="btnExplorar" class="btn btn-primary">
-                    Explorar productos
-                </button>
-            </div>
+                    <button id="btnExplorar" class="btn btn-primary">
+                        Explorar productos
+                    </button>
+                </div>
+            </div>    
         `;
 
         document.getElementById("btnExplorar")
@@ -343,7 +310,6 @@ function mostrarCarrito() {
         return;
     }
 
-    // Mostrar cada producto del carrito
     carrito.forEach(producto => {
 
         const productoCarrito = document.createElement("div");

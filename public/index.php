@@ -135,7 +135,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
             </section>
 
-            <section id="vistaCarrito" class="d-none">
+            <section id="vistaCarrito" class="d-none mx-auto" style="max-width: 1100px;">
 
                 <button
                     type="button"
@@ -154,7 +154,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 <div class="row g-4">
 
-                    <div class="col-12 col-lg-8">
+                    <div id="columnaProductosCarrito" class="col-12 col-lg-8">
 
                         <div class="content-panel h-100">
 

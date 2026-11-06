@@ -129,6 +129,13 @@ if (session_status() === PHP_SESSION_NONE) {
                         placeholder="Buscar por nombre..."
                         autocomplete="off">
 
+                    <label for="filtroCategoria" class="search-label mt-3">
+                        Filtrar por categoría
+                    </label>
+                    <select id="filtroCategoria" class="form-select">
+                        <option value="">Todas las categorías</option>
+                    </select>
+
                 </div>
 
                 <div id="contenedorProductos" class="row g-4"></div>

@@ -30,6 +30,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="/styles/theme-dark.css">
 </head>
 
 <body>
@@ -138,7 +139,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 </div>
 
-                <div id="contenedorProductos" class="row g-4"></div>
+                <div id="contenedorProductos" class="inventario-lista" aria-label="Listado de productos"></div>
 
             </section>
 

@@ -89,116 +89,85 @@ function escaparHTML(valor) {
 }
 
 function mostrarProductos(productos) {
-
     const contenedor = document.getElementById("contenedorProductos");
-
     contenedor.innerHTML = "";
 
+    if (productos.length === 0) {
+        contenedor.innerHTML = '<p class="catalogo-sin-resultados">No se encontraron productos.</p>';
+        return;
+    }
+
+    // La cabecera se muestra en escritorio; en móvil cada producto se presenta como ficha.
+    const cabecera = document.createElement("div");
+    cabecera.className = "inventario-cabecera";
+    cabecera.setAttribute("aria-hidden", "true");
+    cabecera.innerHTML = "<span>Producto</span><span>Precio</span><span>Disponibilidad</span><span>Acción</span>";
+    contenedor.appendChild(cabecera);
+
     productos.forEach(producto => {
+        const disponible = Number(producto.stock) > 0;
+        const fila = document.createElement("details");
+        fila.className = "inventario-item";
+        const precio = Number(producto.precio);
+        const precioFormateado = Number.isFinite(precio)
+            ? precio.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : escaparHTML(producto.precio);
 
-        const botonProducto = Number(producto.stock) > 0
-            ? `
-                <button
-                    class="btn btn-primary btn-agregar"
-                    data-id="${escaparHTML(producto.idProducto)}">
-                    Agregar al carrito
-                </button>
-            `
-            : `
-                <button
-                    class="btn btn-secondary"
-                    disabled>
-                    Sin stock
-                </button>
-            `;
-
-        const columna = document.createElement("div");
-
-        columna.classList.add(
-            "col-12",
-            "col-sm-6",
-            "col-lg-4",
-            "col-xl-3"
-        );
-
-        const productoElemento = document.createElement("div");
-
-        productoElemento.classList.add(
-            "producto",
-            "h-100"
-        );
-
-        const imagen = producto.foto || 'default.png';
-
-        productoElemento.style.setProperty(
-            "--imagen-producto",
-            `url("/img/productos/${encodeURIComponent(imagen)}")`
-        );
-
-        productoElemento.innerHTML = `
-            <h3 class="text-white">
-                ${escaparHTML(producto.nombre)}
-            </h3>
-
-            <p class="text-white fs-5">
-                ${escaparHTML(producto.descripcion)}
-            </p>
-
-            <p class="text-white fs-5">
-                Precio: $${escaparHTML(producto.precio)}
-            </p>
-
-            ${botonProducto}
+        fila.innerHTML = `
+            <summary class="inventario-fila">
+                <span class="inventario-nombre">
+                    <strong>${escaparHTML(producto.nombre)}</strong>
+                    <small>Ver detalles <span class="inventario-chevron" aria-hidden="true">⌄</span></small>
+                </span>
+                <span class="inventario-precio" data-etiqueta="Precio">$ ${precioFormateado}</span>
+                <span class="inventario-stock" data-etiqueta="Disponibilidad">
+                    <span class="${disponible ? "stock-disponible" : "stock-agotado"}">
+                        ${disponible ? "Disponible" : "Sin stock"}
+                    </span>
+                </span>
+                <span class="inventario-accion">
+                    <button type="button" class="btn btn-pampa btn-sm btn-agregar"
+                        data-id="${escaparHTML(producto.idProducto)}"
+                        ${disponible ? "" : "disabled"}>
+                        ${disponible ? "Agregar +" : "Agotado"}
+                    </button>
+                </span>
+            </summary>
+            <div class="inventario-detalles">
+                <strong>Descripción</strong>
+                <p>${escaparHTML(producto.descripcion || "Sin descripción disponible.")}</p>
+                <small>Stock disponible: ${escaparHTML(producto.stock)}</small>
+            </div>
         `;
 
-        columna.appendChild(productoElemento);
-        contenedor.appendChild(columna);
+        // El botón de compra no debe desplegar ni cerrar los detalles de la fila.
+        const botonAgregar = fila.querySelector(".btn-agregar");
+        botonAgregar.addEventListener("click", evento => {
+            evento.preventDefault();
+            evento.stopPropagation();
+            if (!disponible) return;
 
-        const botonAgregar = productoElemento.querySelector(".btn-agregar");
+            const idProducto = Number(botonAgregar.dataset.id);
+            const productoEnCarrito = carrito.find(p => Number(p.idProducto) === idProducto);
 
-        if (botonAgregar) {
+            if (productoEnCarrito) {
+                aumentarCantidad(idProducto);
+                return;
+            }
 
-            botonAgregar.addEventListener("click", () => {
+            const stock = Number(producto.stock);
+            if (!Number.isInteger(stock) || stock < 1) {
+                alert("Stock insuficiente o incremento inválido");
+                return;
+            }
 
-                const idProducto = Number(botonAgregar.dataset.id);
+            carrito.push({ ...producto, cantidad: 1 });
+            guardarJSON();
+            mostrarCarrito();
+        });
 
-                const productoSeleccionado = productos.find(
-                    p => Number(p.idProducto) === idProducto
-                );
-
-                const productoEnCarrito = carrito.find(
-                    p => Number(p.idProducto) === idProducto
-                );
-
-                if (productoEnCarrito) {
-
-                    aumentarCantidad(idProducto);
-
-                } else {
-
-                    const cantidadInicial = 1;
-                    const stock = Number(productoSeleccionado.stock);
-
-                    if (!Number.isInteger(stock) || stock < cantidadInicial) {
-                        alert("Stock insuficiente o incremento inválido");
-                        return;
-                    }
-
-                    carrito.push({
-                        ...productoSeleccionado,
-                        cantidad: cantidadInicial
-                    });
-
-                    guardarJSON();
-                    mostrarCarrito();
-                }
-
-            });
-
-        }
-
+        contenedor.appendChild(fila);
     });
-
 }
 
 function guardarJSON() {

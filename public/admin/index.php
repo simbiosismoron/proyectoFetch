@@ -31,6 +31,7 @@ exigirAdmin(false);
     >
 
     <link rel="stylesheet" href="/admin/styles/panel.css">
+    <link rel="stylesheet" href="/styles/theme-dark.css">
 </head>
 
 <body>

@@ -600,6 +600,9 @@ const btnVolverCatalogo = document.getElementById("btnVolverCatalogo");
 
 btnVerCarrito.addEventListener("click", () => {
 
+    // Cada visita al carrito comienza sin mensajes de un checkout anterior.
+    document.getElementById("mensajeCheckout").textContent = "";
+
     vistaCatalogo.classList.add("d-none");
     vistaMisPedidos.classList.add("d-none");
     vistaCarrito.classList.remove("d-none");

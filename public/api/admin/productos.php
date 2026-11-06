@@ -193,8 +193,6 @@ try {
 
     $datos = validarDatosProducto($datos);
 
-    $datos["foto"] = $foto;
-
     $producto = new producto();
 
     $idProducto = $producto->crear($datos);

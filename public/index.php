@@ -159,7 +159,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     Revisá los productos seleccionados antes de confirmar tu pedido.
                 </p>
 
-                <div class="row g-4">
+                <div id="filaCarrito" class="row g-4">
 
                     <div id="columnaProductosCarrito" class="col-12 col-lg-8">
 
@@ -182,7 +182,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
                     </div>
 
-                    <div class="col-12 col-lg-4">
+                    <div id="columnaResumenCarrito" class="col-12 col-lg-4">
 
                         <div id="resumenPedido"class="order-summary">
 

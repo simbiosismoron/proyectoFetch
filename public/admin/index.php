@@ -142,6 +142,30 @@ exigirAdmin(false);
 
         </section>
 
+        <section class="admin-card mb-4" id="gestionCategorias">
+            <div class="card-heading"><h2 class="card-title">Administrar categorías</h2><p class="card-description mb-0">Crear, modificar y eliminar registros sin productos asociados.</p></div>
+            <div class="card-content">
+                <form id="formCategorias" class="row g-3 mb-4">
+                    <div class="col-md-9"><label class="form-label" for="Categoriasnombre">Nombre</label><input class="form-control" id="Categoriasnombre" name="nombre" maxlength="255" required></div>
+                    <div class="col-12"><button class="btn btn-pampa" type="submit" id="guardarCategorias">Crear</button> <button class="btn btn-outline-secondary d-none" type="button" id="cancelarCategorias">Cancelar edición</button></div>
+                </form>
+                <p id="mensajeCategorias" role="status"></p>
+                <div class="table-responsive"><table class="table admin-table"><thead><tr><th>Nombre</th><th>Acciones</th></tr></thead><tbody id="tablaCategorias"></tbody></table></div>
+            </div>
+        </section>
+        <section class="admin-card mb-4" id="gestionProveedores">
+            <div class="card-heading"><h2 class="card-title">Administrar proveedores</h2><p class="card-description mb-0">Crear, modificar y eliminar registros sin productos asociados.</p></div>
+            <div class="card-content">
+                <form id="formProveedores" class="row g-3 mb-4">
+                    <div class="col-md-4"><label class="form-label" for="Proveedoresnombre">Nombre</label><input class="form-control" id="Proveedoresnombre" name="nombre" maxlength="255" required></div>
+                    <div class="col-md-4"><label class="form-label" for="Proveedorescuit">CUIT (11 dígitos)</label><input class="form-control" id="Proveedorescuit" name="cuit" inputmode="numeric" pattern="[0-9]{11}" maxlength="11" required></div>
+                    <div class="col-md-4"><label class="form-label" for="ProveedoresrazonSocial">Razón social</label><input class="form-control" id="ProveedoresrazonSocial" name="razonSocial" maxlength="255" required></div>
+                    <div class="col-12"><button class="btn btn-pampa" type="submit" id="guardarProveedores">Crear</button> <button class="btn btn-outline-secondary d-none" type="button" id="cancelarProveedores">Cancelar edición</button></div>
+                </form>
+                <p id="mensajeProveedores" role="status"></p>
+                <div class="table-responsive"><table class="table admin-table"><thead><tr><th>Nombre</th><th>CUIT (11 dígitos)</th><th>Razón social</th><th>Acciones</th></tr></thead><tbody id="tablaProveedores"></tbody></table></div>
+            </div>
+        </section>
         <section class="admin-card mb-4">
 
             <div class="card-heading">
@@ -437,6 +461,7 @@ exigirAdmin(false);
     </footer>
 
     <script src="/js/admin.js"></script>
+    <script src="/js/admin-entidades.js"></script>
 
 </body>
 </html>

@@ -4,7 +4,7 @@ header("Content-Type: Application/json; charset=UTF-8");
 
 require_once __DIR__ . "/../../app/models/categoria.php";
 
-if ($_SERVER["REQUEST_METHOD" !== "GET"]) {
+if ($_SERVER["REQUEST_METHOD"] !== "GET") {
     header("Allow: GET");
     http_response_code(405);
 

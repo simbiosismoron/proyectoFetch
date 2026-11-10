@@ -92,22 +92,5 @@ function validarDatosProducto(array $datos): array
             );
         }       
 
-            $foto = $datos["foto"] ?? null;
-
-        if ($foto !== null && !is_string($foto)) {
-            throw new InvalidArgumentException(
-                "La foto debe ser un texto o null"
-            );
-        }
-
-        if (is_string($foto)) {
-            $foto = trim($foto);
-
-            if ($foto === "") {
-                $foto = null;
-            }
-        }
-    $datos["foto"] = $foto;
-
     return $datos;
 }

@@ -16,8 +16,6 @@ async function cargarMisPedidos() {
 
         mensaje.textContent = "";
 
-        console.log("Pedidos recibidos:", datos.pedidos);
-
         mostrarMisPedidos(datos.pedidos);
 
     } catch (error) {

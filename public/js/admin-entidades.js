@@ -1,4 +1,3 @@
-// Gestión de entidades maestras del catálogo (solo interfaz; autorización en PHP).
 function configurarABM({ nombre, ruta, claveId, campos, refrescarSelect }) {
     const form = document.getElementById("form" + nombre);
     const tabla = document.getElementById("tabla" + nombre);

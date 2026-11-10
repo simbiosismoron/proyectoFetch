@@ -4,26 +4,13 @@ header("Content-Type: application/json; charset=UTF-8");
 
 session_start();
 
-require_once __DIR__ . "/../../app/models/usuario.php";
+require_once __DIR__ . "/../../app/controllers/UsuarioController.php";
 
 try {
     $datos = json_decode(file_get_contents("php://input"), true);
 
-    if (
-        !is_array($datos) ||
-        !isset($datos["email"], $datos["password"]) ||
-        !is_string($datos["email"]) ||
-        !is_string($datos["password"])
-    ) {
-        throw new InvalidArgumentException("Datos de inicio de sesión inválidos");
-    }
-
-    $usuario = new Usuario();
-
-    $resultado = $usuario->iniciarSesion(
-        $datos["email"],
-        $datos["password"],
-    );
+    $controller = new UsuarioController();
+    $resultado = $controller->iniciarSesion($datos);
 
     if (!$resultado) {
         http_response_code(401);

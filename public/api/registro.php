@@ -2,7 +2,7 @@
 header("Content-Type: application/json; charset=UTF-8");
 
 
-require_once __DIR__ . "/../../app/models/usuario.php";
+require_once __DIR__ . "/../../app/controllers/UsuarioController.php";
 
 $datos = json_decode(
     file_get_contents("php://input"),
@@ -12,30 +12,8 @@ $datos = json_decode(
 
 try {
 
-    if (
-        !is_array($datos) ||
-        !isset($datos["nombre"], $datos["correo"], $datos["password"])
-    ) {
-        throw new InvalidArgumentException("Faltan datos del registro");
-    }
-
-    if (
-        !is_string($datos["nombre"]) ||
-        !is_string($datos["correo"]) ||
-        !is_string($datos["password"])
-    ) {
-        throw new InvalidArgumentException(
-            "Los datos del registro deben ser texto"
-        );
-    }
-
-    $usuario = new Usuario();
-
-    $resultado = $usuario->registrar(
-        $datos["nombre"],
-        $datos["correo"],
-        $datos["password"]
-    );
+    $controller = new UsuarioController();
+    $resultado = $controller->registrar($datos);
 
     echo json_encode($resultado);
 } catch (InvalidArgumentException $e) {
